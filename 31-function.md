@@ -1,0 +1,1 @@
+a funcion takes input, applies the embedded logic in it, and then processes the output.
