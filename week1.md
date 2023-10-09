@@ -197,6 +197,12 @@
 11. Executable Creation:
    The linker combines object files, libraries, and other necessary components to create the final executable file.
 
+1. preprocessing -> compiling -> assembling -> linking 
+2. #include<stdio.h> gets converted to prototype of printf scanf etc. and the functions are written at the end below the main function
+3. compiling converts the source code to assembly code
+4. assembler converts the assembly code to binary code. 
+5. linking combines stdio.c cs50.c main.c into one large c file
+./a.out - assembly output
 
 
 
@@ -500,7 +506,7 @@ Understanding this flow of execution is crucial for programmers to create effici
 
 35. # gcd(greatest common divisor)
 
-1. gcd(m,n) = gcd(m-n,n) if m>n
+1. gcd(m,n) = gcd(m-n,n) if m>n use this minus program over modulo
 2. gcd(m,n) = gcd(m%n,n) if m>n
 3. if n is zero return m
 4. else return gcd(n,m%n)
@@ -1243,57 +1249,32 @@ one number can't come more that 2 times at a time
 142. # why it is important to tell col size when using a 2d array in function
 
 1. its column size coz c*i + j
-_______________________________________________
-# basic math for dsa
 
-### Prime Number
+143. # basic math for dsa
 
-## Naive Approach:
-```
-PrimeNaive(n):
-    if n < 2:
-        return False  // n is not a prime number
+Prime Number
+1. Naive Approach:
+ In this naive approach, we start from 2 (the smallest prime number) and iterate up to n-1,
+ checking if n is divisible by any number in this range. 
+ If it is divisible by any number, it's not a prime number. Otherwise, it's a prime number.
 
-    for i from 2 to n - 1:
-        if n is divisible by i:
-            return False  // n is not a prime number
+2. Square Root Approach:
+ In this square root approach, we only need to check divisors up to the square root of n
+ because if n is not a prime number, it must have a divisor smaller than or equal to its square root.
 
-    return True  // n is a prime number
-```
-In this naive approach, we start from 2 (the smallest prime number) and iterate up to n-1, checking if n is divisible by any number in this range. If it is divisible by any number, it's not a prime number. Otherwise, it's a prime number.
-
-## Square Root Approach:
-```
-PrimeSqrt(n):
-    if n < 2:
-        return False  // n is not a prime number
-
-    max_divisor = floor(sqrt(n))
-
-    for i from 2 to max_divisor:
-        if n is divisible by i:
-            return False  // n is not a prime number
-
-    return True  // n is a prime number
-```
-In this square root approach, we only need to check divisors up to the square root of n because if n is not a prime number, it must have a divisor smaller than or equal to its square root.
-
-Note: In the pseudocode, "floor" represents taking the integer part of the square root.
-
-## Sieve of Eratosthenes
-Start with a list of numbers from 2 up to the desired limit.
-Start with the first number (2) and mark all of its multiples as non-prime.
-Move to the next unmarked number (3) and repeat the process.
-Continue this process until you reach the square root of the limit.
+3. Sieve of Eratosthenes
+ Start with a list of numbers from 2 up to the desired limit.
+ Start with the first number (2) and mark all of its multiples as non-prime.
+ Move to the next unmarked number (3) and repeat the process.
+ Continue this process until you reach the square root of the limit.
 
 1. make a bool vector (prime) of all numbers from 0 to n with all elements marked as true
 2. mark 0th 1st element as false and make an ans variable for recording count of primes
-3. for i = 2 i < sqrt(n) //coz primes before it have already marked its previous multiples
+3. for i = 2 i < sqrt(n) 
         if(prime[i])
             ans++ 
             j=i*i //becoz all multiples smaller than this number will be marked in previous iterations
-            Any multiple of p smaller than p×p must have a prime factor smaller than p (otherwise, it would be at least p×p).
-            All multiples of primes smaller than p have been marked in previous iterations, including their squares (which is why we start marking from p×p).
+            All multiples of primes smaller than p have been marked in previous iterations, not their squares (which is why we start marking from p×p).
             
             for j < n
                 prime[j]=false  //marking all of the multiples of prime numbers as false
@@ -1302,11 +1283,12 @@ Continue this process until you reach the square root of the limit.
 
     Time complexity = O(n*log(log(n)))
 
-## Segmented Sieve
+4. Segmented Sieve
 given L and R limit in which we have to find primes 
 apply simple sieve till the upperlimit root R and retrieve the marked array
 filter in primes from it in an array baseprimes 
 find first multiple of basePrimes in LR array to start marking by L/baseprime *baseprime
+
 if firstmultiple < L
 int j = max of firstMultiple or baseprime*baseprime
     then add basePrime to it for retrieving multiple in range
@@ -1319,60 +1301,45 @@ for prime in baseprime
         sieve[j-L] = false
         j+=prime
 return segmentedsieve
+cout<< i+L
 
-cout<<i+L
-### GCD HCF
 
-## euclid algo gcd(m,n) = gcd(m-n,n) or gcd(m%n,n) provided m>n
-use minus wala operation over modulus
-if a==0 return b or if b==0 return a
-while a>0 and b>0
-    if a > b
-        a = a - b
-    if b < a
-        b = b - a
-    
-return A==0 ? B : A;
-
-## lcm(a,b)*hcf(a,b)=a * b
-
-with a*b and hcf know from euclids theorem we can find lcm
-
-### modulo arithmetic
+144. # modulo arithmetic
 
 a+b % m = a%m + b%m
 a%m - b%m = a-b % m
 a % m % m % m = a % m
 a % m * b % m = a*b % m
 
-### fast exponentiation a^n
- ## normal O(n) 
+145. # fast exponentiation a^n
+ normal O(n) 
  keep multiplying n times
 
- ## fast o(log n)
-fastexponentiation a,b
-int ans=1
-while b> 0
+ fast o(log n)
+ fastexponentiation a,b
+ int ans=1
+ while b> 0
     if b&1  //if b is odd
         ans = a*ans //multiply a once more for inclusion of odd occurence
     a *= a
     b>>1
-return ans
-_______________________________________________--
-# bubblesort principle
+ return ans
+
+146. # bubblesort principle
 swap the adjacents if needed, till we get the largest element to the right in every iteration
 
 for i < n-1 // coz the remaining element is sorted anyways so omit the last iteration
 for j < n - i - 1  //j is the number of swaps for each iteration of i 
 if arr j > arr j+1 then swap both (for ascending sort)
 if arr j < arr j+1 then swap both (for descending sort)
-_________________________________________
-# insertion sort
+
+147. # insertion sort
 
 run i from 1 to n-1
 set key = v[i]
 run j from i-1 to j>=0 
-# pseudocode
+
+
 for i in 1 to n-1
     set j = i-1
     set key = v[i]
@@ -1381,11 +1348,12 @@ for i in 1 to n-1
         j--  //concept of using out of range loop for program logic
     v[j+1]=key //shifting the key to left
 
-# why make key when we can directly use i
+why make key when we can directly use i
     the value at ith index will change with iterations that's why assigning its value to a key is important
-_______________________
-# selection sort
-# principle
+
+148. # selection sort
+
+principle
 find the smallest element and swap it with ith element
 for ith iteration in [0,n-1)
  declare minindex = i on every iteration
@@ -1394,10 +1362,7 @@ for ith iteration in [0,n-1)
    store minimum of both in minindex
     out from the j loop run the swap operation on minindex and i
 
-
-__________________________________________
-
-# char arrays strings class 1
+149. # char arrays strings class 1
 char ch[5]; declares an array of name ch of 5 blocks each of size 1 which can store characters (any type of symbol)
 cin >> ch; (no need to use for loop for input or output)
 null character \0
@@ -1639,9 +1604,8 @@ https://cplusplus.com/reference/string/string/
 
 
   hw check stl functions in string class and character array stl function
-  _____________________________________________________________________________
 
-# char array strings class 2
+150. # char arrays strings class 2
   remove duplicates in a string
 
 Input: s = "abbaca"
@@ -1858,18 +1822,9 @@ public:
 
 //time space complextiy of this code
 
+151. # char arrays string class 3
 
-
-_______________________________________________________________________-
-
-
-# char aarray string class 3
-
-1. 
-
-________________________
-
-doubt calss week5
+152. # doubt calss week5
 char array have by defalut zero filled in elements
 strlen(ch) for length of character array
 char ch[] = {0}; //goof practice in general for all types of arrays
@@ -1896,12 +1851,7 @@ So, for example:
 
 The `printf` function uses these format specifiers to format and print the floating-point number (`aDoubleValue`) accordingly.
 
-
-______________________
-
-pointer l1
-
-# pointer 
+153. # pointerl1 
  special variable that stores address of other variable
 example -  an interger variable named num mapped with address 104 with value 5
 by default - address is stored as hexadecimal value
@@ -2157,6 +2107,10 @@ cout<<(*ptr)[3];
 *(ptr+1) = 2
 this is how it goes
 
- (*ptr)[3]  
- ________________________________________
+ (*ptr)[3]
 
+154. # cs50
+debug50 ./buggy
+rubber duck debugging
+write always magic numbers as const int N = 4; (capitalize it for visual context)
+constants can be globally declared
