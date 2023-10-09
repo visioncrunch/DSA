@@ -596,7 +596,20 @@ it doesn't matter whoever is greater than another they would be swapped of the d
 
 52. # 32bit vs 64bit architecture
 
-1. 
+1. 32 bit CPU can process 32 bits of instructions per cycle
+2. 64 bit CPU can process 64 bits of instructions per cycle
+3. addressable memory 2^64-1 upperlimit as opposed to 2^32-1 in a 32 bit cpu
+4. resource usage more rams can be installed as opposed to only 4gb ram in a 32bit cpu and a 4gb ram in 64 bit cpu will be used more efficiently than if it was in a 32bit processor
+5. double work per cycle as compared to 32 bit cpu
+6. compatibility with 32bit softwares as well
+7. better graphics performance
+8. more security and signed processors
+9. stops kernel patching with software
+10. data execution/deletion prevention
+11. ram limitation is just a software not a physical limitation
+12. program files has 64bit files
+13. and program files(x86) have 32 bit files
+
 
 53. # decimal to binary
 
@@ -992,12 +1005,20 @@ it doesn't matter whoever is greater than another they would be swapped of the d
 122. # missing element {1,2,3,4,5,6,7,8}
 
 1. calculate sum and subtract it from wholesum to get missing element
-2. xor with whole xor
-3. if arr[mid]-mid==1 go right s = m + 1 else store answer and go left e = mid-1
+
+1. xor with whole xor
+
+1. initialize answer as 0
+2. if arr[mid]-mid = 1 move right -> start = mid + 1 //coz pattern didn't break move on
+3. else if arr[mid]-mid != 1 store mid as answer and end = mid - 1 //pattern broke answer could have been skipped so move left
+4. update mid and repeat 1 and 2 until start > end 
+5. if answer = 0 then return n + 1 //it means last element is missing
+6. else return answer
+7. midify this approach to include the corner case(not done till now)
 
 123. # rearrange +ve -ve in consecutive order with preserved order +-+-
 
-1.
+1. 
 
 124. # return row with max 1s
 
@@ -1011,14 +1032,28 @@ it doesn't matter whoever is greater than another they would be swapped of the d
 
 1. s=0 e=n-1 mid;
 2. while s < e  // this depends on case whether to use <= or only <
-3. mid = s+(e-s)/2 (saves memeory overflow if s and e are both INT_MAX)
+3. mid = s+(e-s)/2
 4. if arr[m]id==target return mid
 5. else if arr[mid]>target e = mid -1 // this also depends on case could have been e = mid
 6. else start = mid + 1 // this also could have been s = mid
+7. why monotonic function: we are able to neglect half the problem hence reducing the size
+8. why binary search time complexity is very less
+9. why s + (e-s)/2 INT_MAX + INT_MAX > range of integer
+10. when s = e what does it mean? it represents single array element of size 1
 
 127. # find and element, first occurence, last occurence, total occurence
 
 1. in all cases use binary search and total = last - first + 1 and keep storing possible answers
+2. for first occurence if we find an answer store it and move left because we might have skipped the first occurence and treated further occurences as first
+3. same for last occurence just move right in order to check possible last occurence if skipped
+it's code
+0. initialize answer as -1
+1. give start and end index
+2. calculate mid index as s + (e-s)/2
+3. if middle == target: store that mid index as answer and end = mid - 1 (for first occurence) or start = mid + 1(for last occurence);
+   else if middle > target ? end = mid -1 :: start = mid + 1
+4. repeat 2 and 3 until start>end
+5. return answer;
 
 128. # key pair two sum
 
@@ -1031,7 +1066,14 @@ it doesn't matter whoever is greater than another they would be swapped of the d
 
 130. # peak element in a mountain array
 
-1. 
+1. declare those start end mid and ans = -1
+2. if arr mid > arr mid + 1 : store mid in answer and move left - > end = mid //answer could have been skipped and end = mid so as to not skip peak
+3. else start = mid + 1
+4. update mid repeat 2 to 3 until start >=end 
+5. return answer
+6. why stop when start>=end
+   if start equals end then at only one element currently we would be iterating infinitely
+   suppose s = 5 e = 5 m = 5 then certainly we are in step 2 condition when it is true we are reupdating end = mid that is 5 so again s = e = m = 5 so infinite loop
 
 131. # whixh swap is faster
 
@@ -1043,4 +1085,1078 @@ it doesn't matter whoever is greater than another they would be swapped of the d
 1. sort(v.begin(),v.end(), mycomp)
 2. bool mycomp(vector<int>a,vector<int>b){return a[0]>b[0]; for 0based indexing return a[1]>b[1]; for 1based indexing}
 
-133. 
+1.
+To use a custom comparator in the C++ sort() function, you need to pass it as the third argument to the function. The comparator function should take two elements of the type you want to sort as arguments and return a boolean value indicating whether the first element is less than, equal to, or greater than the second element.
+
+For example, the following code sorts a std::vector of std::string objects in alphabetical order, using a custom comparator:
+
+C++
+std::vector<std::string> strings = {"hello", "world", "!"};
+
+bool compareStrings(const std::string& a, const std::string& b) {
+  return a < b;
+}
+
+std::sort(strings.begin(), strings.end(), compareStrings);
+
+for (const std::string& string : strings) {
+  std::cout << string << " ";
+}
+Use code with caution. Learn more
+Output:
+
+! hello world
+Custom comparators can also be used to sort more complex data types, such as objects with multiple attributes. For example, the following code sorts a std::vector of Person objects by age, using a custom comparator:
+
+C++
+struct Person {
+  int age;
+  std::string name;
+};
+
+bool comparePersons(const Person& a, const Person& b) {
+  return a.age < b.age;
+}
+
+std::vector<Person> people = {{25, "Alice"}, {30, "Bob"}, {20, "Carol"}};
+
+std::sort(people.begin(), people.end(), comparePersons);
+
+for (const Person& person : people) {
+  std::cout << person.name << ": " << person.age << std::endl;
+}
+Use code with caution. Learn more
+Output:
+
+Carol: 20
+Alice: 25
+Bob: 30
+Custom comparators are a powerful tool for sorting and ordering data in C++. They can be used to sort data based on any criteria, regardless of the data type.
+
+133. # advanced questions of binary are based on
+
+1. if found target store answer and move to intended portion of array and proceed to find another possible better approximate solution
+
+
+134. # general practice
+
+1. make copy then make modifications on that copy. do not alter the original data.
+
+135. # pivot in sorted rotated array
+
+    4 5 6 7 1 2 3
+1. declare those start end mid 
+2. if s == e then return s
+3. else if arr mid < arr mid - 1 and mid - 1 >= 0 return mid - 1; //this is the case when mid is at the lowest element  // range out of bound error can come in here
+4. else if arr mid > arr mid + 1 and mid + 1 < n return mid; //this is the case when mid is at the highest index      // same range out of bound error can come here
+5. else if arr start > arr mid end = mid - 1 //at the lower line of graph, move backward
+6. else s = mid + 1 //at the upper line of graph, move forward
+7. update mid repeat 2 to 6 until start > end;
+
+136. # pseudocode of square root of a number correct to n decimal places
+
+1. define search space(the changing dynamic reduced range of possible answers) from answer space(the range of numbers that can be possible answers)
+2. define the predicate function which will be applied on mid
+3. based on output of this function decide whether to go left or right (advanced concept of binary search)
+
+for example if i have to find sqrt of 68
+i know it must be in range [0,68) (my answer space)
+and my predicate function is mid*mid < 68 it can either say true or false 
+if it is equal then return mid
+if greater then go left
+else if mid*mid < 68 store the answer, go to right (predicate function is true here only)  
+hence minimizing search space by halfing the range
+
+wherever predicate function gives true then store those answers isntantly
+for example mid*mid<68 is true for mid = 6,7,8,8.1,8.2,...
+
+to configure it for giving sqrt upto n decimal precision
+1. define a double precision variable that stores 0.1 if precision is 1 0.01 if precision is 2
+2. now apply mid+= mid/10 if mid*mid < 68  (to be continued...)
+
+137. # binary search on 2d array pseudocode
+
+1. c*i + j = address of ith element of a 2d array in 1d format
+2. declare start end mid as before
+3. i = mid/c j = mid%c  are indices of a 1d array in 1d format
+4. same binary search code of 1d array just replace arr[mid] with currindex=arr[i][j]
+
+138. # divide 2 numbers using binary search
+
+dividend = quotient * divisor + remainder
+
+1. range 0 to dividend 
+2. if arr[mid]*divisior == dividend -> return arr[mid]
+3. else if arr[mid]*divisor > dividend -> end = mid - 1
+4. else store answer and start = mid + 1
+5. repeat 2 to 4 until start > end
+
+139. # binary search in a nearly sorted array
+in case of sorted array there is only one condition
+in a nearly sorted array, arr at index can be at position mid-1 mid mid +1
+
+1. if arr[mid]==target return mid; (in case of nearly sorted array ther are three cases)
+1. if arr[mid]==target return mid;
+2. if arr[mid-1]==target return mid -1;
+3. if arr[mid+1]==target return mid+1;
+4. if arr[mid]> target end = mid -2
+5. if arr[mid]< target start = mid + 2 
+6. why 4,5 steps (to be continued...)
+
+140. # find odd occuring element via binary search
+an array with all elements even no of times except one number that occurs odd times
+all repeating numbers come in pairs
+and all pairs do not repeat
+one number can't come more that 2 times at a time
+
+1. xor method
+2. count method
+3. binary search method
+
+0. observation:
+    a) starting element of pairs before odd element stand on even index
+    b) starting element of pairs after odd element stand on odd index
+    c) for single element cases, the single element is the only answer
+
+1. if mid % 2 == 0 then //for even indices
+      
+      if arr mid == arr mid + 1 
+          
+          then standing at left -> to move right s = mid +2
+          
+      else right -> to move left e = mid coz it can also contain answer
+
+2. if mid % 2 != 0 then //for odd indices
+    
+      if arr mid == arr mid - 1
+        
+         then standing at left -> to move right s = mid + 1 
+        
+      else right -> to move left e = mid -1 
+
+141. # interview hack
+
+1. don't show that you know everything, take moer time, do it so that he can see your curiosity
+2. first tell all the approaches and then wait
+3. if he asks to solve ONLY then solve otherwise DON'T
+
+142. # why it is important to tell col size when using a 2d array in function
+
+1. its column size coz c*i + j
+_______________________________________________
+# basic math for dsa
+
+### Prime Number
+
+## Naive Approach:
+```
+PrimeNaive(n):
+    if n < 2:
+        return False  // n is not a prime number
+
+    for i from 2 to n - 1:
+        if n is divisible by i:
+            return False  // n is not a prime number
+
+    return True  // n is a prime number
+```
+In this naive approach, we start from 2 (the smallest prime number) and iterate up to n-1, checking if n is divisible by any number in this range. If it is divisible by any number, it's not a prime number. Otherwise, it's a prime number.
+
+## Square Root Approach:
+```
+PrimeSqrt(n):
+    if n < 2:
+        return False  // n is not a prime number
+
+    max_divisor = floor(sqrt(n))
+
+    for i from 2 to max_divisor:
+        if n is divisible by i:
+            return False  // n is not a prime number
+
+    return True  // n is a prime number
+```
+In this square root approach, we only need to check divisors up to the square root of n because if n is not a prime number, it must have a divisor smaller than or equal to its square root.
+
+Note: In the pseudocode, "floor" represents taking the integer part of the square root.
+
+## Sieve of Eratosthenes
+Start with a list of numbers from 2 up to the desired limit.
+Start with the first number (2) and mark all of its multiples as non-prime.
+Move to the next unmarked number (3) and repeat the process.
+Continue this process until you reach the square root of the limit.
+
+1. make a bool vector (prime) of all numbers from 0 to n with all elements marked as true
+2. mark 0th 1st element as false and make an ans variable for recording count of primes
+3. for i = 2 i < sqrt(n) //coz primes before it have already marked its previous multiples
+        if(prime[i])
+            ans++ 
+            j=i*i //becoz all multiples smaller than this number will be marked in previous iterations
+            Any multiple of p smaller than p×p must have a prime factor smaller than p (otherwise, it would be at least p×p).
+            All multiples of primes smaller than p have been marked in previous iterations, including their squares (which is why we start marking from p×p).
+            
+            for j < n
+                prime[j]=false  //marking all of the multiples of prime numbers as false
+                j+=i
+    return ans
+
+    Time complexity = O(n*log(log(n)))
+
+## Segmented Sieve
+given L and R limit in which we have to find primes 
+apply simple sieve till the upperlimit root R and retrieve the marked array
+filter in primes from it in an array baseprimes 
+find first multiple of basePrimes in LR array to start marking by L/baseprime *baseprime
+if firstmultiple < L
+int j = max of firstMultiple or baseprime*baseprime
+    then add basePrime to it for retrieving multiple in range
+make segmentedsieve vector of size R-L+1,true
+mark v[0] and v[1] as false
+for prime in baseprime
+    int firstmultiple = L/prime *prime
+    if firstmultiple < L add prime to it
+    for j = max(firstmultiple, prime*prime) j<R
+        sieve[j-L] = false
+        j+=prime
+return segmentedsieve
+
+cout<<i+L
+### GCD HCF
+
+## euclid algo gcd(m,n) = gcd(m-n,n) or gcd(m%n,n) provided m>n
+use minus wala operation over modulus
+if a==0 return b or if b==0 return a
+while a>0 and b>0
+    if a > b
+        a = a - b
+    if b < a
+        b = b - a
+    
+return A==0 ? B : A;
+
+## lcm(a,b)*hcf(a,b)=a * b
+
+with a*b and hcf know from euclids theorem we can find lcm
+
+### modulo arithmetic
+
+a+b % m = a%m + b%m
+a%m - b%m = a-b % m
+a % m % m % m = a % m
+a % m * b % m = a*b % m
+
+### fast exponentiation a^n
+ ## normal O(n) 
+ keep multiplying n times
+
+ ## fast o(log n)
+fastexponentiation a,b
+int ans=1
+while b> 0
+    if b&1  //if b is odd
+        ans = a*ans //multiply a once more for inclusion of odd occurence
+    a *= a
+    b>>1
+return ans
+_______________________________________________--
+# bubblesort principle
+swap the adjacents if needed, till we get the largest element to the right in every iteration
+
+for i < n-1 // coz the remaining element is sorted anyways so omit the last iteration
+for j < n - i - 1  //j is the number of swaps for each iteration of i 
+if arr j > arr j+1 then swap both (for ascending sort)
+if arr j < arr j+1 then swap both (for descending sort)
+_________________________________________
+# insertion sort
+
+run i from 1 to n-1
+set key = v[i]
+run j from i-1 to j>=0 
+# pseudocode
+for i in 1 to n-1
+    set j = i-1
+    set key = v[i]
+    while j>=0 and v[j] > v[key]
+        set v[j+1]=v[j]  //shifting the greater value to right
+        j--  //concept of using out of range loop for program logic
+    v[j+1]=key //shifting the key to left
+
+# why make key when we can directly use i
+    the value at ith index will change with iterations that's why assigning its value to a key is important
+_______________________
+# selection sort
+# principle
+find the smallest element and swap it with ith element
+for ith iteration in [0,n-1)
+ declare minindex = i on every iteration
+  and pick smallest element from j = i+1 to n-1
+   and then compare j with minindex
+   store minimum of both in minindex
+    out from the j loop run the swap operation on minindex and i
+
+
+__________________________________________
+
+# char arrays strings class 1
+char ch[5]; declares an array of name ch of 5 blocks each of size 1 which can store characters (any type of symbol)
+cin >> ch; (no need to use for loop for input or output)
+null character \0
+d o g '\0' sybolizes termination of string 
+ascii value of null character 0
+all the elements after the string in a chracter array are filled with null charaters
+if char ch = \0
+ascii = (int)ch will be 0
+delimiters(character that can terminate processing of chars after it) - space" " tab\t enter\n
+anubhav \t gupta will only take anubhav as input
+to take a whole line as input cin.getline(ch, 100);
+where ch is the character and 100 is the maximum size of input 
+delimiter of getline function is enter or newline character, tabs and spaces will work
+length of string in a chracter array
+initialize length as 0
+same run a for loop
+if ch[i]=='\0' break;
+else increment length
+when out side of loop return length
+it will count spaces too
+alternative 
+include string.h
+strlen(ch) does the same
+
+reversing a string
+using two pointer rev(ch, lengthofstring)
+dont pass size of ch array as null character on swap will terminate the program
+utility function to reverse a character array of strings - reverse(str, str+len) that same array function can be used here
+character array are also passed by reference
+
+convert lowercase to uppercase (toupper and tolower are STL functions)
+My name is Love Babbar
+MY NAME IS LOVE BABBAR
+97-97+65
+low-low+up
+lc - 'a' + 'A'
+or
+lc + char(32)
+and for uppercase to lowercase
+up - A + a
+up - char(32)
+
+code of lower to UPPER: 
+
+void convertToUpperCase(char ch[], int n) {
+
+  int index = 0;
+
+  while(ch[index] != '\0') {
+    
+    //check if lowercase, then convert to upper case
+    if(ch[index] >= 'a' && ch[index] <='z') {
+      ch[index] = ch[index] - 'a' + 'A';
+    }
+    index++;
+  }
+}
+
+code of UPPER to lower: 
+
+void convertToUpperCase(char ch[], int n) {
+
+  int index = 0;
+
+  while(ch[index] != '\0') {
+    
+    //check if uppercase, then convert to lower case
+    if(ch[index] >= 'A' && ch[index] <='Z') {
+      ch[index] = ch[index] - 'A' + 'a';
+    }
+    index++;
+  }
+}
+
+
+replace @ with space
+
+My@name@is@Babbar
+My name is Babbar
+
+while ch[i] != '\0'
+    if ch[i] == @
+        ch[i]== ' ';
+    index++
+
+check palindrome
+
+noon
+babbab
+racecar
+tabat
+
+2 pointer approach
+bool checkPalindrome(char ch[], int n) {
+  //n -> length of string
+  int i=0; 
+  int j = n-1;
+
+  while( i<= j) { //we need to only traverse till half array
+    if(ch[i] == ch[j]) {
+      i++;
+      j--;
+    }
+    else {
+      //characters are not matching
+      return false;
+    }
+  }
+  //agar yaha pohjoch gye ho
+  //iska matlab saare characters match kr gye h 
+  ///iska matlab palindrome hai 
+  //iska matlab return true krdo
+  return true;
+  
+}
+
+some stl function for character array
+
+* `begin()` and `end()` - Return iterators to the beginning and end of the character array, respectively.
+* `find()` and `find_if()` - Search for an element in the character array.
+* `count()` - Count the number of occurrences of an element in the character array.
+* `copy()` - Copies the contents of one character array to another.
+* `fill()` - Fills the character array with a specific value.
+* `reverse()` - Reverses the order of the elements in the character array.
+* `sort()` - Sorts the elements in the character array in ascending order.
+* `unique()` - Removes duplicate elements from the character array.
+* `equal()` - Compares two character arrays to see if they are equal.
+* `lexicographical_compare()` - Compares two character arrays to see which one is lexicographically greater.
+
+These functions are all defined in the `<algorithm>` header file.
+
+
+strings
+
+string name;  string data type ka ek variable (string class ka ek object)
+dynamic range
+creation : string name;
+input cin >> name;
+output cout<< name;
+access cout << name[2];
+last element after string is also a \0 null character
+
+i/p love babbar
+stored love
+same issue
+solution
+name = "love babbar";
+getline(cin, name);
+
+some utilities of strings
+https://cplusplus.com/reference/string/string/
+
+
+ string name;
+
+  cin >> name;
+
+  empty string
+  string temp = "";
+
+  cout << "Length of string: "  << name.length() << endl;     //gives length of a string
+
+  cout << "String is empty or not: " << temp.empty() << endl; //checks if a string is empty or not
+
+  cout <<"Character at position 0 is: " << name.at(n) << endl;  //gives the value at index n
+
+  cout << "Front character of string is: "<< name.front() << endl; //gives the value at index front
+
+  cout << "back character of string is: "<< name.back() << endl; //gives the value at index last
+
+  string str1 = "Love"; 
+
+  string str2 = "Babbar";
+
+  cout << "before appending" << endl;
+
+  cout << str1 << endl;   
+
+  cout << str2 << endl;
+  
+  //append
+  str1.append(str2);
+
+  cout << "After appending" << endl;
+  cout << str1 << endl;        lovebabbar
+  cout << str2 << endl;        babbar
+
+  string desc = "This is a car";
+  desc.erase(4, 3);  //4th index se 3 characters remove krdo
+  desc.erase(desc.begin()+5,desc.end-9); remove characters in this range
+  cout << desc << endl;  This a car 
+
+
+  string name = "Love Babbar";
+  string middle = "kumar ";
+
+  name.insert(5, middle); //5th index pr middle waali string
+
+  cout << "Printing name:  " << name << endl;
+
+
+  string name = "love" ;
+
+  cout << name << endl;
+
+  name.push_back('R');   push R after the last string element
+  cout << name << endl;
+
+  name.pop_back();       removes the last element
+  cout << name << endl;
+
+
+  string str1 = "yaar tera super star desi kalakar";
+  string str2  = "staryyyy";
+
+
+  if(str1.find(str2) == string::npos){
+   //not found
+   cout << "Not FOund" << endl;
+  }
+  else {
+   cout << "Found" << endl;
+  }
+
+  string str1 = "babbar";
+  string str2 = "Love";
+
+  if(str1.compare(str2) == 0) {     equals 0 when compared string is equal, >0 for longer and <0 for shorter
+   cout << "Matching" << endl;
+  }
+  else {
+   cout << "not matching " << endl;
+  }
+
+
+  string desc = "this is a car, big daddy of all suvs";
+
+  cout << desc.substr(19, 5) << endl; //19th index se 5 lenght ki substring nikal lo
+
+
+  hw check stl functions in string class and character array stl function
+  _____________________________________________________________________________
+
+# char array strings class 2
+  remove duplicates in a string
+
+Input: s = "abbaca"
+Output: "ca"
+Explanation: 
+For example, in "abbaca" we could remove "bb" since the letters are adjacent and equal, and this is the only possible move.  The result of this move is that the string is "aaca", of which only "aa" is possible, so the final string is "ca".
+Example 2:
+
+Input: s = "azxxzy"
+Output: "ay"
+
+    string removeDuplicates(string s) {
+      string temp = "";
+
+    for (char ch : s) {
+        if (temp.empty() || ch != temp.back()) {
+            temp.push_back(ch);
+        } else {
+            temp.pop_back();
+        }
+    }
+
+    return temp;
+    }
+
+
+remove dulpicates part 2
+Input: s = "deeedbbcccbdaa", k = 3
+Output: "aa"
+Explanation: 
+First delete "eee" and "ccc", get "ddbbbdaa"
+Then delete "bbb", get "dddaa"
+Finally delete "ddd", get "aa"
+Example 3:
+
+Input: s = "pbbcggttciiippooaais", k = 2
+Output: "ps"
+
+
+remove all occurence of a substring
+Input: s = "axxxxyyyyb", part = "xy"
+Output: "ab"
+Explanation: The following operations are done:
+- s = "axxxxyyyyb", remove "xy" starting at index 4 so s = "axxxyyyb".
+- s = "axxxyyyb", remove "xy" starting at index 3 so s = "axxyyb".
+- s = "axxyyb", remove "xy" starting at index 2 so s = "axyb".
+- s = "axyb", remove "xy" starting at index 1 so s = "ab".
+Now s has no occurrences of "xy".
+
+
+while(substring exits in badi wali string){
+    keep removing
+}
+string removeOccurrences(string s, string part) {
+        while(s.find(part)!=string::npos){
+            s.erase(s.find(part),part.length());
+        }return s;
+    }
+
+
+
+hw find all the name algorithms that exist in string class for pattern finding and time complexity and space complextiy
+write erase function by self
+
+
+valid palindrome 2
+Given a string s, return true if the s can be palindrome after deleting at most one character from it.
+Example 2:
+
+Input: s = "abca"
+Output: true
+Explanation: You could delete the character 'c'
+
+two pointer 
+left++ right -- if both are equal
+
+if not equal then if i remove left then remaining strong palindrome? yes/no
+if not equal then if i remove right then remaining strong palindrome? yes/no
+if both of the answers are true then both with individually form palindrome on removal
+if one forms plaindrome and other doesn't then remove the one that forms the palindrome
+if neither of them forms a palindrome then return false
+
+how to struncture this into pseudocode
+
+making palindrome checker by making second array then return bool of a[i]=b[i] uptil half
+
+define the palindrome checker(n) function
+that checks whether the remaining string is plaindrome or not after removal of element at index n
+iterate the string
+
+if(arr[l]==arr[r])
+    then l++ r--
+
+else if
+    return palindrome checker1 || palindrome checker2
+
+
+class Solution {
+public:
+    bool checkPalindrome(string s, int i, int j) {
+        while( i<= j) {
+            if(s[i] != s[j] ) {
+                return false;
+            }
+            else {
+                i++;
+                j--;
+            }
+        }
+        return true;
+    }
+
+    bool validPalindrome(string s) {
+        int i = 0;
+        int j = s.length() - 1;
+
+        while( i <= j) {
+            if(s[i] == s[j]) {
+                i++;
+                j--;
+            }
+            else{
+                //s[i]!=s[j]
+                //1 removal allowed
+                //check plaindrome for remaining string after removal
+
+                //ith character -> remove
+                bool ans1 = checkPalindrome(s, i+1, j);
+                //jth character -> remove
+                bool ans2 = checkPalindrome(s, i, j-1);
+
+                return ans1 || ans2;
+            }
+        }
+        //agar yha tk pohoche ho
+        //iska matlab valid palindrome hai
+        //iska matlab -> 0 removal
+        return true;
+    }
+};
+
+minimum time difference
+
+
+
+palindrome substring
+Given a string s, return the number of palindromic substrings in it.
+
+A string is a palindrome when it reads the same backward as forward.
+
+A substring is a contiguous sequence of characters within the string.
+
+ 
+
+Example 1:
+
+Input: s = "abc"
+Output: 3
+Explanation: Three palindromic strings: "a", "b", "c".
+Example 2:
+
+Input: s = "aaa"
+Output: 6
+Explanation: Six palindromic strings: "a", "a", "a", "aa", "aa", "aaa".
+ 
+
+Constraints:
+
+1 <= s.length <= 1000
+s consists of lowercase English letters.
+
+approach
+run palindrome check for odd and even and increase the count outwards for both pointers if possible
+
+if odd 
+put i j in middle element 
+go in outward direction
+if match increase count
+if not match no need to compare further
+
+if even
+put i j in middle element
+go in outward direction
+increase count if match
+if not match no need to count further
+
+
+class Solution {
+public:
+    int expand(string s,int i, int j) {
+        int count = 0;
+
+        while(i >= 0 && j < s.length() && s[i] == s[j] ) {
+            count++;
+            i--;
+            j++;
+        }
+        return count;
+    }
+    int countSubstrings(string s) {
+        int totalCount = 0;
+        for(int i = 0; i < s.length(); i++ ) {
+            //ODD
+            int j = i;
+            int oddKaAns = expand(s, i, j);  
+            //EVEN
+            j = i+1;
+            int evenKaAns = expand(s, i, j);
+            totalCount = totalCount + oddKaAns + evenKaAns;
+        }
+        return totalCount;
+    }
+};
+
+//time space complextiy of this code
+
+
+
+_______________________________________________________________________-
+
+
+# char aarray string class 3
+
+1. 
+
+________________________
+
+doubt calss week5
+char array have by defalut zero filled in elements
+strlen(ch) for length of character array
+char ch[] = {0}; //goof practice in general for all types of arrays
+inshort make array of length+1 so it reserves the space for the null character
+why cout<< ch gives the whole array without looping 
+but for an integer array, we have to traverse it whole why? - > bcoz it is inbuilt and understood by developers
+
+why was my double precision truncated always -> bcoz i used the cout command
+instead use printf with this syntax
+printf("%0.10f",doubleValue);
+%n.mf means use n width and m decimal place of precision  
+printf statement utilites
+Exactly, you've got it right!
+
+In the `printf` statement `printf("%n.mf", aDoubleValue)`, if `n` is a specified minimum width and `m` is the specified precision for decimal places, here's what happens:
+
+1. **Minimum Width (`n`)**: The `n` value ensures a minimum width for the output. If the actual output is less than `n` characters, it will be padded with spaces on the left to meet the minimum width requirement.
+
+2. **Precision (`m`)**: The `m` value specifies the number of decimal places to display for the floating-point number. It controls how many digits will be displayed after the decimal point.
+
+So, for example:
+- `%5.6f` will ensure a minimum width of 5 characters and display up to 6 decimal places of precision.
+- `%5.100f` will also ensure a minimum width of 5 characters but display up to 100 decimal places of precision.
+
+The `printf` function uses these format specifiers to format and print the floating-point number (`aDoubleValue`) accordingly.
+
+
+______________________
+
+pointer l1
+
+# pointer 
+ special variable that stores address of other variable
+example -  an interger variable named num mapped with address 104 with value 5
+by default - address is stored as hexadecimal value
+assume it as a variable with special datatype of address 
+int* ptr = &a;
+where int* is pointer to integer data ptr is pointer name
+bool* = pointer to boolean data
+short* pointer to short data
+overall ptr is a pointe to integer data that contains some address
+
+creation int*p;
+access the value at address in ptr with derefernce operator joined with pointer cout<< *ptr 
+why pointer?
+
+
+int a = 5;
+int*ptr = &a;
+cout<< &a gives address of a
+cout<< ptr gives address of a
+cout<< &ptr gives address of pointer ptr
+cout<< *ptr gives 5
+cout<< a also gives 5
+so a = *ptr
+int &pr is only refernce name for the same memory location
+
+int*ptr; will be illegal access of memory and runtime error will be thrown
+to avoid this create a null pointer by int* ptr = 0; int*ptr =nullptr;
+
+why arr = arr+ 1 not possbile bcoz arr is const pointer 
+instead make a pointer variable pointing to arr and then modify that pointer bcoz its variable
+
+why pointer size is 8?
+most common in modern platforms
+64 bit memory address are used hence 8 byte sized pointer
+this size is determined by size of memory address in architecture
+if memory address size is 8bytes then to store a value this large pointers should also be the same size of memory address
+
+
+
+
+a = a + 1 (5 to 6)
+ptr = ptr +1  (104 to 108 next memory location)
+*ptr = *ptr + 1 (5 to 6)
+
+a can be called *ptr also
+
+int a = 100;  location 104
+int*ptr = &a;
+a - 100
+&a - 104
+*a - error
+ptr - 104
+*ptr - 100
+&ptr - 208
+(*ptr)++ - 101
+++(*ptr) - 102
+*ptr = *ptr/2 - half the value of a - 51
+*ptr = *ptr -2 decrement in value of a by 2 - 49
+
+
+int a = 5  1008
+int *p = &a  216
+int *q = p 318
+a - 5
+&a - 1008
+*a - error
+p - 1008
+&p - 216
+*p - 5
+q - 1008
+&q - 318
+*q - 5
+
+
+int*q = *p - error
+
+
+int a = 50 104
+int*p = &a 420
+int*q = p 516
+int*r = q 712
+p q r are refernce pointers to the same variable
+
+50 - a
+104 - &a
+error - *a
+104 - p
+420 - &p
+50 - *p
+104 - q
+516 - &q
+50 - *q
+104 - r
+712 - &r
+50 - *r
+
+pointer with arrays
+
+arr, &arr, &arr[0] is base address 
+
+
+int arr[5] = {10,20,30,40,50}; 104
+
+arr 104
+&arr 104
+arr[0] 10
+&arr[0] 104
+*arr 10
+*arr+1 11
+*(arr)+1 11
+*(arr+1) 20
+*(arr+2) 30
+*(arr+3) 40
+
+*(arr+i) is same as arr[i] and i[arr]
+
+int arr[5] = {1,2,3,4,5}
+arr = arr+1 why not possible in this case
+int p =5
+p = p+1 possible and *p now stores some garbage values points at one address greater than original
+
+arr - 104
+&arr - 104
+arr[0] - 10
+&arr[0] - 104
+p - 104
+&p - 512
+*p - 10
+q - 108
+&q - 420
+*q - 20
+*p+1 - 11
+*(p)+2 13
+*(q)+2 22
+*(q+4) error
+
+int arr[4] = {10,20,30,40}
+sizeof(arr) = 16
+int *p = arr
+sizeof(p) = 8
+
+char ch[50]= "love"
+char* cptr = ch
+cout<<cptr - love
+cout<<ptr in case of integer array it will print the base address
+cout<< *cptr ch[0]
+
+char ch[50]="love" 104 cptr 208
+char * cptr = ch;  char*cptr = &ch doesn't work but &ch[0] will work. Why? because &ch represents address of 10 characters (type-mismatch)
+ch = love
+&ch = 104
+ch[0] l
+&cptr 208
+*cptr ch[0]
+cptr love
+
+
+char ch[50] = "Statement"
+char*cptr= &ch[0]
+
+
+ch = Statement
+&ch = 104
+*(ch+3) = t
+cptr Statement
+&cptr 216
+*(cptr+3) t
+cptr +2 atement
+*cptr ch[0] S
+cptr+8 t
+
+
+char ch= 'a'
+char*cptr = &ch
+
+cptr - pointer to a character data
+&ch gives address of a whole string that' why they both conflict
+
+
+
+char*cptr = "babbar" bad practice 
+bcoz the text is stored in temporary location without being named
+
+wild pointer ?
+uninitialized or deleted pointer
+it doesn't points to a valid memory location so dereferencing it can cause undefined behaviour
+int*ptr;
+cout<<*ptr; - undefined behaviour
+
+int*ptr = new int;
+delete ptr;
+cout<< *ptr; - again undefined behaviour
+
+int*ptr = &x;
+x is not declared so it doesn't count as a valid pointer much like the previous two cases
+
+always initialize pointers to null ptrs or a valid memory location
+
+
+void pointers can point to any data type
+also called generic pointers
+void * ptr;
+it can not be derefernced directly bcoz compiler doesn't know which datatype is it pointing at
+
+void*ptr;
+int x = 10;
+ptr = &x;
+int * ptrptr = static_cast<int*>(ptr);
+cout<<*ptrptr; gives 10 (value of x)(value of *ptr)(value of *ptrptr)
+
+dereferencing means to retrieve the value at the memory location that is contained in the pointer
+
+these are used for dynamic memory allocation using new keyword to determine the type of pointer at runtime
+int*ptr = new int;
+void*voidptr = ptr;
+int*intptr=static_cast<int*>(voidptr);
+*intptr=10;
+cout << *ptr; //prints 10
+
+static_cast<int*>(ptr);
+casting ptr to int* datatype
+
+static_cast<a>(b);
+casting datatype a to b
+
+
+
+dangling pointer
+
+int*p = new int;
+*p = 42;
+delete p;
+cout<<*p;
+dangling refernce to 42 (undefined behaviour)
+
+these arise bcoz of not managing the memory for the lifetime of that memory. 
+while freeing memory and pointer still points to it.
+ 
+ how to avoid dangling pointers
+ returning a pointer to a local variable which in future can go out of scope.
+ using a deleted or free up pointer
+ RAII Resource Acquisition Is Initialization smart pointers
+ unique_ptr, shared_ptr, weak_ptr
+ use refernces instead of pointers (in case if i don't need to update the value at that memory)
+ avoid returning pointers to local variables
+ nullify pointers after deleting or freeing memory
+ 
+ array of pointers - all elements are pointers to some locations
+ pointer of array - pointer to the first element of an array
+
+ int (*ptr)[10]= &nums; a pointer to first element of an array of size 10
+cout<<(*ptr)[3];
+*(ptr+1) = 2
+this is how it goes
+
+ (*ptr)[3]  
+ ________________________________________
+
