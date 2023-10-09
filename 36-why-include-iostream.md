@@ -1,1 +1,0 @@
-becoz it has declaration of cout
