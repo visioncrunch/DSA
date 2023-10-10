@@ -1851,7 +1851,8 @@ So, for example:
 
 The `printf` function uses these format specifiers to format and print the floating-point number (`aDoubleValue`) accordingly.
 
-153. # pointerl1 
+153. # pointers
+pointerl1
  special variable that stores address of other variable
 example -  an interger variable named num mapped with address 104 with value 5
 by default - address is stored as hexadecimal value
@@ -2099,18 +2100,99 @@ while freeing memory and pointer still points to it.
  avoid returning pointers to local variables
  nullify pointers after deleting or freeing memory
  
- array of pointers - all elements are pointers to some locations
- pointer of array - pointer to the first element of an array
+ array of pointers - all elements are pointers to some locations int *ptr[5]
+ pointer of array - pointer to the first element of an array int (*ptr)[5] 
 
  int (*ptr)[10]= &nums; a pointer to first element of an array of size 10
 cout<<(*ptr)[3];
 *(ptr+1) = 2
 this is how it goes
-
  (*ptr)[3]
+
+pointerl2
+these both give errors as we are trying to create a pointer that points to array which is not allowed
+pointers are supposed to point at a single value of datatype
+char * cptr = &ch
+int * ptr = &arr 
+
+whereas this will run
+int *ptr = arr
+int (*ptr)[5] = &arr;
+cout<< *ptr[5];
+pointer in function
+int arr[] is same as int *arr in function arguments that is a pointer named arr that stores the adress 416 of that array
+
+&arr in function will return the address of the pointer newly created 
+&arr in main function will return the address of arr[0] basically
+
+pointer to pointer
+int a int * ptr1 int ** ptr2 int *** ptr3 int **** ptr4
+ "* ptr1" ** ptr2 *** ptr3 can get me value of a 
+
+int a =5 304
+int*p = &a 204
+int **q = &p 104
+a = 5
+&a = 304
+p = 304
+&p = 204
+*p = 5
+q = 204
+&q = 104
+*q = 304
+**q = 5
+
+
+int a = 10
+int *p = &a
+int **q = &a  error assinging integer address to a pointer to pointer
+
+
+int a = 10
+int*p = &a
+int**q = &p
+int**r=&p
+int***s=&q
+
+a is integer with 5 at which p points at which q and r point and at q s points
+
+*s = adress of p
+**r = 10
+***s = 10
+**q = 10
+**s = address of a
+*q = &a
+*p = 10
+p = address of a
+&s = address of s
+&r = address of r
+&q = address of q 
+**s+1 = address of a+1 unit
+
+
+
 
 154. # cs50
 debug50 ./buggy
 rubber duck debugging
 write always magic numbers as const int N = 4; (capitalize it for visual context)
 constants can be globally declared
+every string ends with nul character \0 whose ascii is 0
+int main(void){}
+int main(int arc, string argv[])
+argv[0] has the name of the program ./program
+argv[1] has the value that we pass
+./greet a b c d (null)
+argv[0] 1 2 3 4
+argc will be 2 if i types ./greet a
+echo $? - shows what the recently executed program exited with
+cryptography
+plaintext cipher ciphertext
+
+int a = 5
+int*p = &a
+solve(p) (*p = *p +5)
+cout p &p *p in main = &a, &p, 5 in solve &a, &p(of the new p formed in solve), 10
+
+pass by value int*p
+pass by refernce int*&p (same things for pointers, no discrimination)
