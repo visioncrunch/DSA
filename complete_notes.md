@@ -832,6 +832,7 @@ it doesn't matter whoever is greater than another they would be swapped of the d
  - int a[5] = {2,4} -> {2,4,0,0,0}
  - int b[2] = {1,2,3,4} -> error
  - int n; cin >> n; in arr[n];  bad practice - possible that memory demanded is unavailable (instead use dynamic arrays)
+ if we want to still do that, use heap memory by int* arr = new int[5];
  - addressof(arr[i]) = base index address + i*data type size 
  - linear search if arr[i] == target -> cout<<"found" break;
 
@@ -1325,40 +1326,37 @@ a % m * b % m = a*b % m
     b>>1
  return ans
 
-146. # bubble sort
+146. # bubble sort - bubble up  the largest element by swapping
 swap the adjacents if needed, till we get the largest element to the right in every iteration
 
-for i < n-1 // coz the remaining element is sorted anyways so omit the last iteration
-for j < n - i - 1  //j is the number of swaps for each iteration of i 
+for i < n-1 // coz the very first element is sorted anyways so omit the last iteration
+for j=i j < n - i - 1  //j is the number of swaps for each iteration of i 
 if arr j > arr j+1 then swap both (for ascending sort)
 if arr j < arr j+1 then swap both (for descending sort)
 
 O(n^2)
 omega(N)
 
-147. # insertion sort
+147. # insertion sort - shifting of large sorted values to create vacancy for the unsorted small value
 
-run i from 1 to n-1
-set key = v[i]
-run j from i-1 to j>=0 
+insert an element in the unsorted array to its correct position in the sorted array by
+shifting all the elements greater than it in the sorted array by one position and placing it in the vacant space formed
 
+void insertionsort(int arr[], int size)
+{
+   for (int i = 1; i < size; i++)
+    {   int j = i - 1;
+        while (arr[j] > arr[j+1] && j >=0)
+        {
+            swap(arr[j],arr[j+1]);
+            j--;
+        }
+    }
+}
+148. # selection sort - select the smallest element in unsorted array and swap it with ending element of sorted array
 
-for i in 1 to n-1
-    set j = i-1
-    set key = v[i]
-    while j>=0 and v[j] > v[key]
-        set v[j+1]=v[j]  //shifting the greater value to right
-        j--  //concept of using out of range loop for program logic
-    v[j+1]=key //shifting the key to left
-
-why make key when we can directly use i
-    the value at ith index will change with iterations that's why assigning its value to a key is important
-
-148. # selection sort
-
-principle
 from i 0 to n-1
-find smallest number bw number[i] and numbers[n-1]
+find smallest number bw number[i+1] and numbers[n-1]
 swap smallest number with numbers[i]
 theta of n^2
 
@@ -2214,20 +2212,23 @@ recursion has
  recursive call (mandatory) recursionans = fact(n-1)
  processing (optional) a +=b
 
-if n =1 (base condition)
-print 1 and return
+some programs of recursion
 
+print from n to 1
+if n =1 (base condition)
+print 1 and return;
 cout << n  (processing)
 print(n-1)  (tail recursion) (recursive call)
 
+print from 1 to n
+if n =1 (base condition)
+print 1 and return;
 print(n-1) (head recursion) (recursive call)
 cout << n  (processing)
 
 recursive tree
 
-first the stack of function forms
-then
-the stack unwinds
+first the stack of recursive calls forms then the stack unwinds as a result of each call returning a value to its preceding recursive call
 
 all the recursive calls are differnt instances of same function
 
@@ -2242,21 +2243,26 @@ if n ==1 or n==0 return 1;
 else f(n) = f(n-1) + f(n-2);
 
 recursion in arrays
-int i =0;
-int minAns = INT_MAX;
-vector<int>v;
-print(arr,n,i, target)
-if i == size return (simply exit if all elements are printed)(-1 if minAns or the desired element not found)
 
-cout<< arr[i]; //for printing elements of array
+print(arr,size ,int i = 0)
+if i == size return (simply exit if all elements are printed)
+processing cout<< arr[i]; //for printing elements of array
+print(arr, 5, i++)
+
+following four can come at processing part of recursion, it can be storing the element in another structure, modifying the array element, or modifying another element based on this array
+
 if arr[i] == target  return true or return i or cout << i //for searching an element in an array 
+
 if arr[i] < minAns minAns = arr[i] //for finding min element in array
+
 if arr[i]%2==0 v.push_back(arr[i]); //for pushing vector in array
+
 arr[i]*=2 //for modifying the index to its double
 
-else print(arr, 5, i++, target, int &minAns)
+recursive call 
+print(arr, 5, i++, target, int &minAns)
 
-store digits of a number in a vector using recursion
+store digits of a number in a vector
 
 fun(int number, vector<int> &v)
 if n==0 return;
@@ -2271,31 +2277,200 @@ number= number*10 + v[i];
 fun(v, num);
 
 if a[i] == target cout < i //processing code for printing index of occurences of target in the provided string a
+
 why int &minAns bcoz it avoids pass by copy (FOR THESE TYPE OF VARIABLES THAT STORE ANSWER, ALWAYS PASS THEM BY REFERNCE)
 
-binary search using recursion
+store all indices where occurence of target exists in a vector and return this vector
+vector<int> dusso(int arr[], int size, int index, int target)
+{
+    vector<int> v;
+    // Base case
+    if (index == size)
+    {
+        return v;
+    }
+    
+    // Processing
+    if (arr[index] == target)
+    {
+        v.push_back(index);
+    }
+    
+    vector<int> vectorans = dusso(arr, size, index + 1, target);
+    
+    // Combine the vectors
+    v.insert(v.end(), vectorans.begin(), vectorans.end());
+    
+    return v;
+}
+
+// for specifically this code we can pass the vector by refernce in a void recursive function instead
+dry run of this on
+arr = {2, 1, 5, 2, 3, 4, 2};
+size = 7;
+target = 2;
+
+main gets called
+  
+  it then calls dusso0
+    
+    it makes its own vector v0
+    it pushes the index at which the occurence of target occured(if any)
+    it then calls dusso1
+  
+      it makes its own vector v1
+      it pushes the index at which the occurence of target occured(if any)
+      it then calls dusso2
+      
+        it makes its own vector v2
+        it pushes the index at which the occurence of target occured(if any)
+        it then calls dusso3
+      
+          it makes its own vector v3
+          it pushes the index at which the occurence of target occured(if any)
+          it then calls dusso4
+      
+            it makes its own vector v4
+            it pushes the index at which the occurence of target occured(if any)
+            it then calls dusso5
+
+              it makes its own vector v5
+              it pushes the index at which the occurence of target occured(if any)
+              it then calls dusso6
+
+                it makes its own vector v6
+                it pushes the index at which the occurence of target occured(if any)
+                it then calls dusso7
+
+                  it makes its own vector v7
+                  it returns its empty vector v7 to dusso6
+
+                dusso6 stores this and returns v7+v6 to dusso5
+              
+              dusso5 stores this and returns v7+v6+v5 to dusso4
+
+            dusso4 stores this and returns v7+v6+v5+v4 to dusso3 
+
+          dusso3 stores this and returns v7+v6+v5+v4+v3 to dusso2 
+
+        dusso2 stores this and returns v7+v6+v5+v4+v3+v2 to dusso1
+
+      dusso1 stores this and returns v7+v6+v5+v4+v3+v2+v1 to dusso0
+       
+    dusso0 stores this and returns v7+v6+v5+v4+v3+v2+v1+v0 to main
+
+binary search
 
 int BS(int arr[], int target, int start, int end)
 {
-   if (start > end)
+   if (start > end) //base case
    {
       return -1;
    } 
    int mid = start + (end-start)/2;
-   if (arr[mid] == target)
+   if (arr[mid] == target) //base case
    {
       return mid;
    }
-   else if (arr[mid] > target)
+   else if (arr[mid] > target) //processing 
    {
       return BS(arr, target, mid + 1, end);
    }
-   else if (arr[mid] > target)
+   else if (arr[mid] > target) //processing
    {
       return BS(arr, target, start, mid - 1);
 
    }
 }
+
+include exclude pattern
+
+print all subsequence of string
+OR
+all subsets of a set
+OR
+all subarrays of array
+
+void includexclude(string str, string output, int index)
+{//base case
+  if index == length
+  //ans is build finally
+  cout << output << endl ;
+      return;
+}
+char ch = str[index];
+//exclude
+includexclude(str,output,index+1);
+
+output.push_back(ch);
+//include
+includexclude(str,output,index+1);
+
+
+
+
+cut into segments
+//exploring all possible ways
+  int maximizeTheCuts(int n, int x, int y, int z)
+    {
+        if (n==0)
+        {
+            return 0;
+        }
+        if (n<0)
+        {
+            return INT_MIN;
+        }
+        int option1 = 1 + maximizeTheCuts(n-x,x,y,z);
+        int option2 = 1 + maximizeTheCuts(n-y,x,y,z);
+        int option3 = 1 + maximizeTheCuts(n-z,x,y,z);
+        return max(option1,max(option2,option3));
+    }
+
+coin change
+// make rupees 11 with 5 2 1 coins such that use minimum coins (3 in this case: 5+5+1) return -1 if can't make
+if amount ==0 return 0 //yeah no coins can be used for that
+int mini = intmax //if we found any answers then the answer might be intmax or smaller than that
+int ans = intmax //just an invalid value incase we don't find any coins to make the amount
+for i in coins.size 
+  coin = coins[i] //for every coin, if amount is negative it means coin > amount so we stop, and return intmax so if we add 1 to intmax then invalid answer will form and program terminates
+  if coin<= amount //if coin is less than amount only then call this function for amount - coin. since i used this coin i need to increment ans by 1 
+    int recans = coinChange(coins, amount - coin); 
+    if recAns!=intmax //if the answer from recursion is valid only then update answer else we return value of answer 
+      ans = 1 + recAns
+  mini=  min(mini,ans) 
+if mini == intmax //yeah that's confirming we didn't find any such coins so return -1
+  return -1
+else return mini
+
+house robber
+
+1 test case mei solve krunga baaki recursion smbhaal lega
+
+int solve(arr,size,index){
+  if index>=size return 0
+  int option1 = arr[i]+solve(arr,size,nums+2)
+  int option1 = 0+solve(arr,size,nums+1)
+  return max(op1,op2)
+}
+
+
+check if array is sorted via recursion
+
+sortcheck(int []arr, int size, int i)
+base case
+if i == size return true
+processing                recursive call
+if arr[i]>arr[i-1] return sortcheck(arr,size,++i) this is head recursion because the base case will try to hit first
+else return false
+
+
+
+
+in recursion i++ doesn't work, ++i works
+
+in base case it is mandatory to return whatever the case, whatever the problem
+
 
 big O - worst case time complexity for example binary search has O(log2n)
 
@@ -2314,10 +2489,9 @@ person people[3];
 people[1].name="fadfsd"
 people[1].phone="1231233";
 
-
-15 - # merge sort
+156. # merge sort
 if only one number
-   quit
+   return
 
 else
    sort left half of the numbers
@@ -2336,4 +2510,705 @@ binary search approach
 
 
 moore's voting algorithm approach
+
+157. # Week 1 - Assignment
+    
+Flowcharts Q1
+
+- multiply two numbers 
+- read a and b
+- return a*b
+
+Flowcharts Q2
+
+- perimeter of a triangle with sides a,b,c
+- read a,b,c
+- return a+b+c 
+
+Flowcharts Q3
+
+- find simple interest
+- read p,r,t
+- return (p*r*t)/100
+
+Flowcharts Q4
+
+- print counting from 1 to n
+- read n
+- for i = 0 i < n
+- print i + 1
+
+Flowcharts Q5
+
+- find factorial of a number
+- read n
+- initialize fact = 1
+- fact*=n and n-- until n!=0
+- return fact
+
+Flowcharts Q6
+
+- check prime or not
+- from i = 2 to n-1
+-   if i%n == 0 return false
+- return true    
+
+Flowcharts Q7
+
+- check given triangle is valid or not
+- read a,b,c
+- if a>b+c && b>c+a && c>a+b
+-   return true;
+- return false
+
+Flowcharts Q8
+
+- print only even number from 1 to n
+- read n
+- for i = 2 to n i+=2
+-   print i
+
+Flowcharts Q9
+
+- print maximum of three numbers
+- read a,b,c
+- return max(a,(max(a,b)))
+
+- print maximum of three numbers
+- if a>b 
+    if a>c
+      return a
+    else
+      return c
+  else
+    if b>c
+      return b
+    else
+      return c
+
+Patterns Q1
+
+- solid square pattern
+- for i < n
+    for j < n
+        cout<<"*"
+    cout<< endl
+
+Patterns Q2
+
+- hollow square pattern
+- for i < n
+    for j < n
+      if i == 0 or n-1 or j == 0 or n-1
+      cout<<"*"
+    cout<< endl;  
+
+Patterns Q3
+- hollow inverted half pyramid 0-+
+
+Patterns Q4
+- hollow full pyramid 0-+
+
+158. # Week 2 - Assignments
+    
+Numeric Hollow Half Pyramid 0-+
+    
+Numeric Hollow Inverted Half Pyramid 0-+
+    
+Numeric Palindrome Equilateral Pyramid 0-+
+    
+Solid Half Diamond 0-+
+    
+Fancy Pattern #1 0-+
+    
+Fancy Pattern #2 0-+
+    
+Fancy Pattern #3 0-+
+    
+Floyd's Triangle Pattern 0-+
+    
+Pascal's Triangle Pattern 0-+
+    
+Butterfly Pattern 0-+
+    
+Display Area Of Circle print 2 * PI * r
+    
+Given Number Is Even or Odd 
+Normal Method %2 = 0 is even  
+Bitwise Method n&1 is odd
+    
+Find The Factorial
+read n
+initialize fact = 1
+fact*=n and n-- until n!=0
+return fact
+    
+Check Given Number Prime or Not factor from 2 to n-1 if any confirms not primes
+
+Print All Prime From 1 to N: for every number from 2 to n check prime and print
+    
+Reverse Integer rev = rev*10 + num%10 num/=10 stop when num==0
+    
+Set the Kth Bit (1 << k) OR n
+    
+Convert the Temperature f = 9/5c + 32 k = c + 273.15
+    
+Count All Set Bits 
+increase count if n%2 == 1 count++ and n/=2 until n==0 then return count
+OR
+if n&1 == 1 count++ and n>>1
+
+Create Number using Digits numer = number*10 + arr[i]
+    
+Print all Digits of an Integer reverse first then acess the reversed number by num%10 and num/=10 until num==0
+    
+KM to Miles 
+1km = 0.621371
+store in float the answer or the value mile*km
+
+159. # Week 3 - Assignments
+    
+Key Pair / two sum
+find all pairs and check if there sum = X for i = 0 to n for j = i+1 to n if arr[i]+arr[j] == X store the indices and return the array if not found return empyty array
+sort the array then use two pointer approach if csum == X return the indices in form of array else if csum > X h-- else l++
+
+#include <iostream>
+using namespace std;
+#include<algorithm>
+void twoSumPointerApproach(int arr[], int n, int x) {
+    sort(arr,arr+n);
+	    int l = 0;
+        int h = n - 1;
+         while (l < h)
+         {
+             int csum = arr[l] + arr[h];
+             if (x ==csum)
+             {      cout<<arr[l]<<" "<<arr[h]<<" ";
+                 return;
+             }
+             else if (x < csum) h--;
+             else if (x > csum) l++;
+         }
+         cout<<"Combination not found";
+         return;
+	}
+
+int main(){
+    
+    int arr[] = {1,2,3,4,45};
+    int x = 49;
+    int n = 5;
+    twoSumPointerApproach(arr,n,x);
+    return 0;
+}
+
+Find Pivot Index
+index where sum of left side elements is equal to the sum of right side elements
+
+- brute force: calculate lsum rsum for each array element and return the index for which lsum rsum are equal
+
+    #include <iostream>
+using namespace std;
+#include<algorithm>
+void twoSumPointerApproach(int arr[], int n, int x) {
+    sort(arr,arr+n);
+	    int l = 0;
+        int h = n - 1;
+         while (l < h)
+         {
+             int csum = arr[l] + arr[h];
+             if (x ==csum)
+             {      cout<<arr[l]<<" "<<arr[h]<<" ";
+                 return;
+             }
+             else if (x < csum) h--;
+             else if (x > csum) l++;
+         }
+         cout<<"Combination not found";
+         return;
+	}
+
+int main(){
+    
+    int arr[] = {1,2,3,4,45};
+    int x = 49;
+    int n = 5;
+    twoSumPointerApproach(arr,n,x);
+    return 0;
+}
+
+- optimized solution by creating arrays lsum and rsum to reduce caluclations(virahanka)
+
+int pivotIndex(vector<int> &nums)
+{
+    
+    int lsum[nums.size()];
+    lsum[0] = 0;
+    int rsum[nums.size()];
+    rsum[nums.size() - 1] = 0;
+    for (int i = 1; i < nums.size(); i++)
+    {
+        lsum[i] = lsum[i - 1] + nums[i - 1]; // filling the lsum array
+    }
+    for (int i = nums.size() - 2; i >=0; i--)
+    {
+        rsum[i] = rsum[i + 1] + nums[i + 1]; // filling the rsum array
+    }
+    for (int i = 0; i < nums.size(); i++)
+    {
+        if (lsum[i] == rsum[i])
+        {
+            return i;
+        }
+    }
+
+    return -1;
+}
+int main()
+{
+    vector<int> arr{2, -1, 1};
+    cout << pivotIndex(arr);
+    return 0;
+}
+
+Sort Colors, dnfp, sort 0s and 1s
+- 3pointer approach
+while m<=h
+int l = m = 0 h = size - 1
+if arr[m] ==0 swap arr[l],arr[m]
+l++ m++
+if arr[m]==1 m++
+else swap arr[m],arr[h] h--
+    
+Missing Number in an array of whole numbers
+
+- sort the array
+then while traversing it if i is not equal to arr[i] return index else if the whole array is traversed then just return n
+- return xor of all values possible in rangle with xor of all values in array
+
+    
+Move All Negative Number To The Left Side Of An Array order not important
+- use sort function
+- while l < h
+  if l is -ve l++
+  if h is +ve h--
+  else swap a[l++],a[h--]
+
+
+  
+Find Duplicate Number in an array of size n+1 where all numbers upto n were possible but one of them is duplicating (leetcode 287)
+
+- sort the array and for i = 0 i < n-1  if arr[i] l== arr[i+1] return the element
+- mark arr[arr[i]] = -1 and return 
+      int findDuplicate(vector<int>&nums) {
+     while (nums[0] != nums[nums[0]])
+    {
+        swap(nums[0], nums[nums[0]]);
+    }
+    return nums[0]; //everytime 0th element will have the duplicate
+- negatice marking approach
+  if nums[abs(nums[i])] == -1 return num[i]
+    else apply nums[nums[i]]==-1
+
+// n = sizeof(a)/sizeof(int) to get size of an array
+
+Missing Elements From An Array With Duplicates
+
+- sort and report the index where the pattern between index and value at index breaks
+
+- for i 0 to n num[abs(num[i])-1] = -ve (this will mark all the unique elements as negative) and then for i 0 to n whereever num[i] is positive return it as i+1
+  why num[i]-1 bcoz index start at 0 so nums[num[0]] would mean 0 which is out of range {1,2,3,4,...,n} so we subtract 1 from range to make it zero to n-1
+
+- if arr[arr[i]-1]!=arr[i] 
+    swap(arr[i],arr[arr[i]]) 
+  else
+    i++ 
+  until i< n
+  then for i 0 to n
+    if arr[i]!= i+1
+     then return that element
+
+
+
+Find First Repeating Element
+
+- for i 0 to n for j i+1 to n if a[i] == a[j] then return i+1 after all the iterations return -1
+- 1 5 3 4 3 5 6     1->1   5->2   3->2   4->1   6->1 (hashing)
+  hash[arr[i]]++ then for i 0 to n if hash[arr[i]] > 1 return i+1
+  unordered_map<int,int>hash;
+  create your own hash of length equal to maximum of array element int* hash[6];   
+
+Common Elements In 3 Sorted Array
+while i< len1 j< len2 k< len3
+- if all three are equal then return that element to set and increment them
+- else if arr[i] < arr[j] then i++
+- else if arr[j] < arr[k] then j++
+- else k++
+now iterate the set and print its element
+to access the sets
+set<int>st
+for auto x=1; x < n x++
+for auto i:st
+
+
+
+
+Wave Print A Matrix
+    
+Spiral Print A Matrix
+    
+Factorial Of A Large Number
+    
+Remove Duplicates From ascending Sorted Array
+
+-  int removeDuplicates(vector<int>& nums) {
+    //      int minAns = INT_MAX;
+    //      vector<int> v;
+    //      int i  = 0;
+    //      while (i < nums.size())
+    //      {
+    //          if (nums[i] == minAns)
+    //          {
+    //              i++;
+    //          }
+    //          else
+    //          {
+    //              minAns = nums[i];
+    //              v.push_back(nums[i++]); //using another structure to store the answer
+    //          }
+    //      }
+         
+    //      nums = v; //equating the structure back
+    //      return nums.size();
+
+- //2nd approach where i will skip the dulplicates and whenver it encounter a new value it increments j
+            int n = nums.size();
+            int i = 0;
+            int j = 0;
+            while (i < n)
+            {
+                if (nums[i] == nums[j])
+                {
+                    i++;
+                }
+                else
+                {
+                    j++;
+                    nums[j] = nums[i];
+                }
+            }
+            return j+1;
+    }
+
+Maximum Average Subarray (Sliding Window Problem)
+
+  double findMaxAverage(vector<int>& nums, int k) {
+        //calculating sum0
+        int sum0 = 0;
+        for (int i = 0; i < k; i++)
+        {
+            sum0+=nums[i];
+        }
+        int maxAns = max(INT_MIN,sum0);
+        //caluclation of maximum sum by sliding window technique
+        for ( int i = 1; i <= nums.size()-k; i++)
+        {   sum0=sum0+nums[i+k-1]-nums[i-1];
+            maxAns = max(maxAns,sum0); //before the correction it was not comparing maxAns with the sliding window 
+        }
+        double avg = maxAns;
+        return avg/k;
+    }
+
+160. # Week 4 - Assignments
+    
+K-Diff Pairs In An Array
+    
+Find K-Closest Element
+    
+Exponential Search & Unbounded Binary Search
+    
+Book Allocation Problem
+    
+Painters Partition Problem
+    
+Aggresive Cows
+    
+EKO SPOJ
+    
+PRATA SPOJ
+    
+Find SQRT of Integer N using Binary Search with K point decimal precision.
+    
+Divide using Binary Search with K point decimal precision
+
+161. # Week 5 - Assignments
+    
+Valid Anagram
+    
+Reverse Only Letters
+    
+Longest Common Prefix
+    
+Reverse Vowels Of A String
+    
+Isomorphic Strings
+    
+Group Anagrams
+    
+Longest Palindromic Substring
+    
+String To Integer (atoi)
+    
+String Compression
+    
+Integer To Romans
+    
+Zig-Zag Conversion
+    
+Largest Number
+    
+Reorganise String
+    
+Find The Index Of First Occurence in a String
+
+162. # Week 6 - Assignments
+    
+Let's Practice Pointers
+
+163. # Expert session 1
+
+non-verbal: articulate thinking before speaking and writing
+
+listening
+
+friendliness and being empathetic with juniors , office staff co-workers
+
+open mindedness
+
+feedback
+
+being confident and influential
+
+keep good contact with even sweepers  wiht everyone 
+
+Can i work with random People? I can only survive through communicating via them
+
+cross culture - take help of team leads project manager to "understand their culture" eg what japanese people consider work as, or what europeans do at work,
+first impression is last impression
+example i would need to talk to:
+security guard (how do i talk to this person)
+IT assistant (this guy can help me how do i talk with this person)
+manager 
+Lab Head
+prepare statements of expected questions
+maintain honesty
+
+simplicity
+
+dealing with clients
+
+being concise yet story telling
+
+sell your skills
+
+treat everyone with equal respect because everyone has a unique story to tell 
+
+merge technical skills with project management
+learn the propagation flow cycle just like software development cycle
+
+never assume anything always double check who you are working with their background
+know a person before knowing them if not be clear
+
+dealing with project managers
+
+over communicate vs under communicate
+
+give updates regularly to maintain integrity and loyalty with your work clients managers
+poeple who do the work they are given will be recognized by managers
+never tell how much you are working
+if you are working it will be told indirectly becoz they recognize your work
+
+learn the ecosystem of company put your ego down
+
+never put yourself down without manager
+you need the work to be done regardless of circumstances
+
+personal touch and character building
+
+dealing with aggresive managers, managing tough conversations
+
+personality: look in the eyes when talking look straight be confident, be a brand
+
+tean collaboration
+
+conflict management
+
+how communication change the narratives
+build you own brand - 
+building trust
+raising hand/speaking when necessary
+non verbal communication
+personality, posture and perception
+learn to say no, give up often
+
+if i am doing my work clearly, work on my brand clearly, i can convey my message and i am damn sure it will be resonated
+
+always treat the swiggy delivery boy greatly
+these small things are noticeable
+
+work on finances family mental health physcial health 
+
+when i think i need to raise my voice i must
+
+be specific
+
+think from the perspective of the other put myself in his shoes
+
+learn to say no politely with justified reasons
+
+maintain work/life or work/brand balance
+
+nevery say yes to anything to not burnout
+
+never say a aa aaa while speaking english
+
+writing effectively
+
+concept 1 - who what when how
+concept 2 - crisp clear no jargons/shortforms/acronyms write u as you only 
+
+when you are sure that you have done the thing, natural confidence will come by itself
+
+managers can be respect greedy and when they get it they will support you
+
+honestly tell your problems you have to work on and your interest to learn it
+
+
+
+never speak too much, only say what's necessary
+accept mistakes/ be honest
+
+nevery say you are in problem everyone has problem it only tells that you don't have fighting spirit
+
+if someone asks what's your hobby. Only tell hobby nothing else, it can be disrespectful
+
+frame yourself as you don't know it still learning its a big field and you will try to, this will convey that you can learn and showcase that you have tried and did it ++
+
+
+what are you currently doing?
+what are you currently studying?
+I mean prepare these answer, cram them to make life easier
+if someone speaks in hindi speak in hindi same for english
+how are you -> i am fine
+aap kese ho -> mei theek hu
+i am open to feedback
+
+overcome my fear of speaking regardless of shame guilt or something else
+
+keep my tone overall the same - eg -  I met this person, he is great, never repeats anything, always comes up with new things.(speak all of these in the same tone)
+
+never do office politics/talk about personal stuff at workplace
+dealing with tough times, being underappreciated
+why being relaxed, having financial and mental well being makes you a winner and an effective communicator
+
+keep in mind once a perception is formed it is formed, and if it was formed badly, cure it smoothly
+
+first year tips - read books, watch movies hollywood, think, make structures of every communication statement, think in the language you want to learn ENGLISH, HINDI
+
+learn to talk in different scenarios - small chat statement,
+
+think of a problems' solution, pseudocode, implement practically via code
+
+toxic culture - pov they want us to frustruate so don't be frustruated to coutner them
+
+how to neogciate for salary - learn to say no, i will think through it, and i will come back to you, research actual benchmarks backed by trustable data
+
+164. # Dnc
+
+mergesort
+    s   m     e
+    2 1 9 7 4 6
+
+Left          Right
+2 1 9         7 4 6
+s   m         m+1 e
+
+    1 2 4 6 7 9
+
+which one is a question that most engineers fail to answer?
+quick sort  merge sort  heap sort
+
+merge fn to sort 2 sorted arrays(){
+    int mid = s+e /2
+    lenleft = mid - s + 1
+    lenright = e - mid
+    int *left = new int[lenleft];
+    int *right = new int[lenright];
+    int k = s
+    for i < lenleft
+      left[i] = arr[k]
+      k++
+    k = mid + 1
+    for i < lenright
+    right[i]= arr[k]
+    k++
+    apply two pointer sorting on these two arrays
+
+    inversion count question
+    
+    inplace mergesort
+
+    why a = log2n
+
+    space compexity?
+    
+
+    }
+
+ - break in two halfs left and right
+ - tell recursion to sort left and right parts
+ - merge the 2 sorted arrays
+
+ pass start and end and array
+ if s > e return; (invalid array)
+ if s == e return; (single element)
+ //break
+int mid = s + e / 2
+//sort left half
+mergsort(arr,s,mid)
+//sort right half
+mergesort(arr,mid+1,e)
+//merge 2 sorted arrays
+merge(arr,s,e)
+
+
+stack memory is far less than heap memory
+
+how to allocate heap memory to data structures use the "new" keyword
+
+variable sized array made on heap memory is fine
+int* arr = new int[5];
+new int[5] returns a address 
+arr would be in stack memory 
+and the address of array would be of heap memory
+dynamic memory allocation can be done with this concept
+to not waste the memory 
+delete[] arr; at the end to deallocate the memory
+
+
+165. # doubt class week 7
+
+text data heap(after text and data near bottom) stack(on top)
+
+OS by default gives a memory to stack (8mb/8kb)
+
+segmentation fault aka stack overflow
+
+whenever all possiblities are asked recursion is used generally
+
+bit manipluation / bit masking in substr finding 
+
+make recursive trees for fear of recursion
+
+make recursive trees of hw questions of recursion
 
