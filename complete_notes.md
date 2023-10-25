@@ -2419,7 +2419,7 @@ cut into segments
         }
         if (n<0)
         {
-            return INT_MIN;
+            return INT_MIN; //int_min because it will not be considered in the maximums
         }
         int option1 = 1 + maximizeTheCuts(n-x,x,y,z);
         int option2 = 1 + maximizeTheCuts(n-y,x,y,z);
@@ -2429,19 +2429,23 @@ cut into segments
 
 coin change
 // make rupees 11 with 5 2 1 coins such that use minimum coins (3 in this case: 5+5+1) return -1 if can't make
-if amount ==0 return 0 //yeah no coins can be used for that
-int mini = intmax //if we found any answers then the answer might be intmax or smaller than that
-int ans = intmax //just an invalid value incase we don't find any coins to make the amount
-for i in coins.size 
-  coin = coins[i] //for every coin, if amount is negative it means coin > amount so we stop, and return intmax so if we add 1 to intmax then invalid answer will form and program terminates
-  if coin<= amount //if coin is less than amount only then call this function for amount - coin. since i used this coin i need to increment ans by 1 
-    int recans = coinChange(coins, amount - coin); 
-    if recAns!=intmax //if the answer from recursion is valid only then update answer else we return value of answer 
-      ans = 1 + recAns
-  mini=  min(mini,ans) 
-if mini == intmax //yeah that's confirming we didn't find any such coins so return -1
-  return -1
+base case
+if amount is 0 return 0
+int mini = intmax
+int ans = int_max
+for int i = 0 i < coins.size() i++
+  if coins[i] <= amount
+    int recans = coinChange(coins, amount - coin);
+    if recans!= intmax  //a recursive call can return intmax so this line takes care of that
+      ans = 1 + recans;
+  mini = min(mini,ans)
+if mini == intmax return -1
 else return mini
+
+f(100) = 1 + f(100-coin1) 
+f(100) = 1 + f(100-coin2)
+return max of both the numbers
+
 
 house robber
 
@@ -2488,17 +2492,6 @@ person people[3];
 
 people[1].name="fadfsd"
 people[1].phone="1231233";
-
-156. # merge sort
-if only one number
-   return
-
-else
-   sort left half of the numbers
-   sort right half of the numbers
-   merge sorted halves
-
-theta nlogn
 
 156. # doubt class week 6
 
@@ -3135,23 +3128,9 @@ s   m         m+1 e
 
     1 2 4 6 7 9
 
-which one is a question that most engineers fail to answer?
+questions that most engineers fail to answer?
 quick sort  merge sort  heap sort
 
-merge fn to sort 2 sorted arrays(){
-    int mid = s+e /2
-    lenleft = mid - s + 1
-    lenright = e - mid
-    int *left = new int[lenleft];
-    int *right = new int[lenright];
-    int k = s
-    for i < lenleft
-      left[i] = arr[k]
-      k++
-    k = mid + 1
-    for i < lenright
-    right[i]= arr[k]
-    k++
     apply two pointer sorting on these two arrays
 
     inversion count question
@@ -3163,24 +3142,73 @@ merge fn to sort 2 sorted arrays(){
     space compexity?
     
 
+void merge(int arr[], int s, int e){
+    //initialize m
+    int m = (s+e)/2;
+    //initialize sizes l,r of the two heap arrays
+    int l = m - s + 1;
+    int r = e - m;
+    //declare the two heap arrays left,right
+    int* left = new int[l];
+    int* right = new int[r];
+    //fill the two heap arrays left,right
+    int k = s;
+    for (int i = 0; i < l; i++)
+    {
+        left[i]=arr[k];
+        k++;
     }
-
- - break in two halfs left and right
- - tell recursion to sort left and right parts
- - merge the 2 sorted arrays
-
- pass start and end and array
- if s > e return; (invalid array)
- if s == e return; (single element)
- //break
-int mid = s + e / 2
-//sort left half
-mergsort(arr,s,mid)
-//sort right half
-mergesort(arr,mid+1,e)
-//merge 2 sorted arrays
-merge(arr,s,e)
-
+    k = m + 1;
+    for (int i = 0; i < r; i++)
+    {
+        right[i]=arr[k];
+        k++;
+    }
+    //now replace the original array with the two sorted arrays
+    int i = 0, j= 0;
+    int n = s; //s is the zeroth index of a divided array, so it may not be 0 else it would always start at starting array that was passed in the merge sort 
+    	while(i < l &&  j < r) {
+		
+		if(left[i] < right[j] ) {
+			arr[n] =  left[i];
+			n++;
+			i++;
+		}
+		else {
+			arr[n] =  right[j];
+			n++;
+			j++;
+		}
+	}
+    //handle the corner cases if one of the array gets exhausted
+    while (j<r)
+    {
+        arr[n]=right[j];
+        j++;
+        n++;
+    }
+    while (i<l)
+    {
+        arr[n]=left[i];
+        i++;
+        n++;
+    }
+    
+    //deallocate the heap memory
+    delete[] left;
+    delete[] right;
+    
+    
+    
+    
+}
+void mergesort(int arr[], int s, int e){
+    if (s>=e) return;
+    int m = (s + e)/2;
+    mergesort(arr,s,m);
+    mergesort(arr,m+1,e);
+    merge(arr,s,e);
+}
 
 stack memory is far less than heap memory
 
@@ -3211,4 +3239,43 @@ bit manipluation / bit masking in substr finding
 make recursive trees for fear of recursion
 
 make recursive trees of hw questions of recursion
+
+number of subsequence another apporach
+
+calcualte n as size of string
+calculate 2^n 
+for i 0 to 2^n
+declarea string out
+decalre num = i
+int j = 0
+while(num)
+int b = num &1
+if b out.pushback(s[i])
+++i
+num >> 1
+
+pirnt out
+
+
+166. # local vs global variables
+
+global variable is written outside a function
+
+local variable is written inside a function
+
+most local variable gets priority
+
+to access global variable ::num 
+
+167. # Memory Layout of a Program
+
+hello.cpp
+compile
+assembly code
+executable(program)(a.out)
+this program is loaded in RAM by exec kernel, a program of OS
+
+168. # OOPs Concept
+
+functional programming f1 calls f2 f2 calls f3 f3 returns f2 returns f1 returns
 
