@@ -450,8 +450,8 @@ The "newline character" ("\n") is efficient in terms of both memory usage and pr
  - ctrl + f2  select all the occurences of a word
  - ctrl + p quick open files
  - ctrl + shift + f search across files in the project
- - ctrl + fn + home - goes to starting of document
- - ctrl + fn + end - goes to ending of document
+ - ctrl + home - goes to starting of document
+ - ctrl + end - goes to ending of document
  - ctrl + f to find some words press enter to replace, esc to exit
  - f5 to debug
  - shift ctrl debug to restart debug
@@ -3277,5 +3277,189 @@ this program is loaded in RAM by exec kernel, a program of OS
 
 168. # OOPs Concept
 
+revise c++ syntax
+memory allocation
 functional programming f1 calls f2 f2 calls f3 f3 returns f2 returns f1 returns
+structure has properties, behaivour(functions)
+
+class Student
+{
+  int id;
+  int age;
+  string name;
+  void study()
+  {
+
+  }
+  void sleeping()
+  {
+
+  }
+  void bunking()
+  {
+
+  }
+  
+};
+
+int main()
+{
+  Student s1;
+  Student s1[];
+  s1 is an object that is instance of a class
+
+}
+
+if class is empty, what would be its size -> 1 (smallest addressable memory
+now if a class is not empty, then it will remove the 1 byte of the empty class and will have the size of 4 bytes if integer property is set
+if a behaviour is set then its size wont be counted unitl used
+
+and if a variable of a class has size smaller than register for example a bool variable, the nalso it will be counted as 4bytes for a 32 bit cpu with 4bytes in a register
+the cpu does it to not do extra work of extraction by adding a padding of size 3 byte to make it 1+3=4 bytes
+
+and actually its not about register its about the largest datatype
+so int double double will give 4+4(padding)+ 8+8 = 24 as answer
+
+but its about smallest multiple of largest datatype that can store all the data
+so int double int will be returning 16 not 24 
+so bool will return 1 size(mulitples of 1 are sufficient to store datatype of size 1)
+
+brahmgyan: sbse bade datatype ke nearest multiple pr chale jao
+
+string is a class that has 24 size for a string object
+
+abstraction - operating a mouse without caring about its internal working, using things in abstract way
+
+by default class is private
+
+public private protected information of a class
+
+private information can only be accessed by private methods
+
+or change its access modifier to public
+private:
+  int name;
+public:
+  void funny(){}
+
+constructor has no return type
+ctor is shorthand for constructor
+
+default constructor
+Student(){}
+
+when Student s1; is created it calls the default constructor that will initialize garbage or null value to the objects properties
+
+this default constructor is set to public and when we set it to private then it will not let us make a Student variable as the constructor that helps initializes it properties is private
+
+the default constructor vanishes when another constructor is made
+
+
+Student(int _ogarg, bool _ewofe2, char _o1, int _re3){
+  ogarg = _ogarg
+  ewofe2 = _ewofe2
+  o1 = _o1
+  re3 = _re3
+}
+Student s1(3,1,'r',22);
+
+with constructors student without id student without age can be created
+it will depend on the number of arguments that are passed that will decide which constructor is called - polymorphism
+
+this.name = name
+is same as
+student.name = name
+this is a pointer that points at current object
+this->id = id
+
+this is a private pointer added by compiler
+
+student will be allocated in stack
+
+heap int int*a = new int(5);
+heap Student*s = new Student(werw,22r,wr2,3r,13r); it creates a pointer s that will point to an object in heap
+cout s->name;
+cout *s.name;
+
+just make sure to deallcate the object
+
+object in stack is accessed by .name
+object in heap is accessed by ->name
+
+
+copy constructor
+
+getter setter
+
+const - makes object/method immutable const int x = 10 / compiler stores it in ROM(an optimisation)
+lvalue that has memory location int a = 5
+rvalue that doesnt have memory location int&a = b a is alias to b
+const int *a = new int(2);
+int const *a = new int(2);
+cout<< *a << endl;
+int b = 10;
+a = &b;
+cout << *a;
+now 10 will be printed 
+we changed the pointer to the const value but we didn't changed the constant value so this will work, 2 is not changed
+for constant pointer 
+int *const a = pnew int(2);
+for both constant
+const int* const a = new int(2);
+
+constant method of a class cna't change a class variable
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+why we need copy constructor - > for deep copying
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+static keyword in class
+
+static data member - variables that relate to instances of all the objects, to access such a variable -> int student::x; int student::y; static int x,y;
+this one is differnt from the object variable that could be access by a.x or a.y is it universal for that class
+
+
+static member function static void print(){}
+common to all objects and can't include non static instances of class
+__FUNCTION__ it prints the name of the function
+this pointers are not accessible
+
+
+
+abstraction - delivering only essential information to the outer world while masking the background details
+
+
+
+static
+initialization list
+macros
 
