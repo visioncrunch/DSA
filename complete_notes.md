@@ -3280,6 +3280,8 @@ this program is loaded in RAM by exec kernel, a program of OS
 revise c++ syntax
 memory allocation
 functional programming f1 calls f2 f2 calls f3 f3 returns f2 returns f1 returns
+not easy to implement, extend ,maintain
+
 structure has properties, behaivour(functions)
 
 class Student
