@@ -2847,11 +2847,66 @@ for auto i:st
 
 
 Wave Print A Matrix
+
+access each column
+if column no is even go from indexing 0 to n-1 for row
+if column no is odd go from indexing n-1 to 0 for row
+
+same logic for row
     
 Spiral Print A Matrix
+
+print outer box
+decrease size
+print next small box
     
 Factorial Of A Large Number
-    
+
+( subquestion )
+add two numbers represented by two arrays gfg
+while i>=0 and j >=0
+carry = 0
+int x = arr[i] + arr[j] + carry
+int digit = x%10
+carry = x/10
+ans.push_back(digit + '0'); // to store a digit in a string vector // coz value of 0 in ascii is 30
+i-- j--
+
+handle the cases when one number is bigger in size than the another
+in that case
+while i>=0
+while j>=0
+int x = arr[i] + 0 + carry
+OR
+int x = arr[j] + 0 + carry
+i-- j--
+
+lastly 
+if carry
+ans.pushback carry + '0'
+
+if arr[arr.size()-1]==0
+ans.pushback(ans.size())
+reverse(arr.begin, arr.end)
+return ans
+
+similarly i can do bodmas
+
+factorial
+vector< int > ans;
+ans.pushback(1)
+carry = 0
+int i=2 i < n i++ // this is loop for mulitplication with more number
+  for j=0 j < ans.size() j++ //this is loop for multiplying in future if the ans array exists further
+    int x = carry+ ans[j]*i //that's how answers are calculated
+    ans[j] = x%10 //the last digit will be stored
+    carry=x/10 //carry will be calucted
+
+    if(carry) //if carry exist 
+      ans.pushback(carry%10) //it will be pushed further
+      carry/=10
+    carry = 0
+cout reversed answer
 Remove Duplicates From ascending Sorted Array
 
 -  int removeDuplicates(vector<int>& nums) {
