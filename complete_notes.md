@@ -3282,7 +3282,7 @@ memory allocation
 functional programming f1 calls f2 f2 calls f3 f3 returns f2 returns f1 returns
 not easy to implement, extend ,maintain
 
-structure has properties, behaivour(functions)
+structure/class is bundle of properties, behaivour(functions) 
 
 class Student
 {
@@ -3308,13 +3308,17 @@ int main()
 {
   Student s1;
   Student s1[];
-  s1 is an object that is instance of a class
+  s1 is an object that is instance of a custom datatype Student
+
 
 }
 
-if class is empty, what would be its size -> 1 (smallest addressable memory
+cpu has register of size 4byte if it is 32bit cpu that has a pipe called memory bus that connnects to memory and reads ONCE and carries data from memory to registers
+the thing is reading once is faster than reading twice or thrice
+
+if class is empty, what would be its size -> 1 (smallest addressable memory)
 now if a class is not empty, then it will remove the 1 byte of the empty class and will have the size of 4 bytes if integer property is set
-if a behaviour is set then its size wont be counted unitl used
+if a behaviour is set then its size wont be counted until used
 
 and if a variable of a class has size smaller than register for example a bool variable, the nalso it will be counted as 4bytes for a 32 bit cpu with 4bytes in a register
 the cpu does it to not do extra work of extraction by adding a padding of size 3 byte to make it 1+3=4 bytes
@@ -3326,13 +3330,15 @@ but its about smallest multiple of largest datatype that can store all the data
 so int double int will be returning 16 not 24 
 so bool will return 1 size(mulitples of 1 are sufficient to store datatype of size 1)
 
-brahmgyan: sbse bade datatype ke nearest multiple pr chale jao
+- brahmgyan: sbse bade datatype ke nearest multiple pr chale jao
+minimum weight picker machine that can carry the largest datatype that exist at the time of operation
 
 string is a class that has 24 size for a string object
 
 abstraction - operating a mouse without caring about its internal working, using things in abstract way
 
-by default class is private
+by default class is private - methods and properties written without access modifiers are private
+
 
 public private protected information of a class
 
@@ -3352,9 +3358,10 @@ Student(){}
 
 when Student s1; is created it calls the default constructor that will initialize garbage or null value to the objects properties
 
-this default constructor is set to public and when we set it to private then it will not let us make a Student variable as the constructor that helps initializes it properties is private
+this default constructor is set to public
+when we set it to private then it will not let us make a Student variable as the constructor that helps initializes it properties is made private
 
-the default constructor vanishes when another constructor is made
+the default constructor vanishes when another constructor is declared
 
 
 Student(int _ogarg, bool _ewofe2, char _o1, int _re3){
@@ -3365,20 +3372,22 @@ Student(int _ogarg, bool _ewofe2, char _o1, int _re3){
 }
 Student s1(3,1,'r',22);
 
-with constructors student without id student without age can be created
+with constructors "student without id" or "student without age" can be created
 it will depend on the number of arguments that are passed that will decide which constructor is called - polymorphism
+how to identify a constructor - it has the name of class in prototype
+
 
 this.name = name
 is same as
 student.name = name
-this is a pointer that points at current object
+this is a private pointer that points at current object added inbuilted by compiler
 this->id = id
-
-this is a private pointer added by compiler
 
 student will be allocated in stack
 
-heap int int*a = new int(5);
+can we change this variable??
+
+heap int*a = new int(5);
 heap Student*s = new Student(werw,22r,wr2,3r,13r); it creates a pointer s that will point to an object in heap
 cout s->name;
 cout *s.name;
@@ -3428,8 +3437,194 @@ constant method of a class cna't change a class variable
 
 
 
+Copy constructor(by default added by compiler)(called when making a copy of object into another)(public by default)(no return type)
+Student s1 = s2; (shallow copy)
+s2 is source and s1 is destination where we need to copy
+Student(const Student&srcobj)
+{
+  this->name = srcobj.name;
+  this->age = srcobj.age;
+}
 
-why we need copy constructor - > for deep copying
+data members are only things that are copied methods are not
+it only gets called in this statement, because it is initialized in this statement
+Student s2 = s1 (good practice)
+s2 = s1 (bad practice to copy)
+why we need copy constructor - > for deep copying 
+
+student s1;
+s1 = s2; will not call copy constructor
+
+Student(const Student &srcobj){} (good practice)(this removes the possibility of data change)
+Student(Student &srcobj){} (bad practice- in this srcobj's data can be changed)
+
+why pass by reference? because copy constructors work is to copy and by writing Student srcobj we are demanding a copy even before actaully making a copy this is like say you are drinving a car but without having one
+
+variable life cycle
+init/copy then destroyed
+
+life cycle of an object
+init/copy then destroyed
+
+for destruction destructor is used (by default, inbuilt by compiler, public, no return type)
+constructor, destructor, copy constructor is not safe and takes whole arguments
+
+~Student(){
+  cout<<"dtor"<< endl;
+  delete v; to avoid memory leak
+}
+
+getter setter method to access data without changning it explicitely
+
+string getgfname(){
+  return gf;
+  return this->gf;(same)
+}
+
+void setGfName(string gf)
+{
+  this->gf = gf;
+}
+
+oops ka mtlb jeevan
+
+getters setters are made to access private data in public method
+
+1 pillar of oops - abstraction
+
+encapsulation bundling of data and methods (wrapping things)
+
+car that has hidden engine, accessible gear changer, key holder is encapsulation
+
+how it implements abstraction - i only see what student details are not the functioning of how all the data of student is stored or decided
+
+why encapsulation
+easy to handle
+protect integrity, reliable, secure, control of how class data is modified
+maintainability
+friend keyword? ->
+authentications steps can be added
+like only allow gf name if its female
+perfect encapsulation - if all data members are private
+access is gvien thorugh getter setter
+
+encapsualtion is often a mean to acheive abstraction by hiding internal details and only exposing what is necesssary
+
+inheritance 
+class dog extends animal
+super class parent class base class
+sub class child class derived class
+
+syntax
+
+class childname: public/protected/private(mode of inheritance) parentclass{};
+
+Oh yeah
+
+protected members are accessible within class itself and to derived classes
+
+if we try to borrow protected things as public they will be borrowed as protected to ensure security
+
+private is never accessible or derived or it can't be inherited
+
+private > protected > public
+experiment the table
+
+protected is private but accessible data as public
+
+
+types of inheritance
+- single inheritance
+    animal to dog
+- multiple inheritance(not possible in java)
+    derived class that inherits from more than one class
+    techer to professor
+    reseracher to professor
+    father to professor
+    employee to professor
+    clas professor : public teacher, public reasearcher{}; 
+- multl-level inheritance
+    animal to human to girl
+- hierarchical 
+    animal to dog,cat,human
+    dog to labra,desi,german
+    bird to sparrow,pigeon
+    human to male, female
+
+dimaond problem
+
+      person
+      /    \
+     /      \
+    /        \  
+teacher   reseracher
+    \        /
+     \      /
+      \    /
+       \  /
+    professor
+
+nonstatic member 'walk' foind in multiple base-class subobjects of type 'person' 
+
+member found by ambiguos name lookup
+professor is comfused whoe walk() to choose teacher or reseracher
+
+by principle of abstraction professor deosnt know person
+
+solution:
+
+scope resolution
+p.teacjer::walk();
+p.reaserarcher::walk();
+
+virtual
+class teacher : virtual public Person
+by inheriting virtually is saying dont make copy of the methods. when someone uses the walk() function now the user would be able to use person.walk()
+
+compile time pr chizein less logical hoti hain
+runtime pr chizein more logical hoti hain
+
+so by using virtual we are using the walk() function at runtime by ihneriting the functions implementaiton when it is used
+polymorphism is used
+with virtual i can bring same copy to the class
+
+polymorphism
+
+compile time (faster) - static polymorphism
+runtime (slower)
+
+compile time
+function overloading - write parameterized constructors, normal fucntions
+int add(int a, int b){
+  return a+b;
+}
+double(double a, double b)
+{
+  return a+b;
+}
+both will run regardless of their same name
+
+operator overloading
+hw find all c++ operators which can be overloaded
+v1+v2
+void operator+(const Vector &src){
+    this->x = this->x + src.y
+    this->y = this->y + src.y 
+}
+no need to write v1 = v1 + v2
+
+init list - another way to write parameterized constructor
+
+hw init list
+
+
+
+
+hw deep vs shallow copy
+
+
+
+
 
 
 
@@ -3461,7 +3656,7 @@ abstraction - delivering only essential information to the outer world while mas
 
 
 
-static
+
 initialization list
 macros
 
