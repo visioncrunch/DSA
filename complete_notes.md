@@ -3322,6 +3322,13 @@ most local variable gets priority
 
 to access global variable ::num 
 
+::x=4
+int x =20
+ cout << x 20 will be printed
+ cout << ::x 4 will be printed
+
+
+
 167. # Memory Layout of a Program
 
 hello.cpp
@@ -3329,6 +3336,9 @@ compile
 assembly code
 executable(program)(a.out)
 this program is loaded in RAM by exec kernel, a program of OS
+
+heap memory is dynamic memory
+
 
 168. # OOPs Concept
 
@@ -3457,23 +3467,41 @@ copy constructor
 
 getter setter
 
-const - makes object/method immutable const int x = 10 / compiler stores it in ROM(an optimisation)
+const
+ - makes object/method immutable const int x = 10 / compiler stores it in ROM(an optimisation)
 lvalue that has memory location int a = 5
-rvalue that doesnt have memory location int&a = b a is alias to b
+rvalue that doesnt have memory location int&a = b a is alias to b (refernce variable)
 const int *a = new int(2);
-int const *a = new int(2);
+int const *a = new int(2); (both are same)
 cout<< *a << endl;
+*a = 10 wont work
 int b = 10;
 a = &b;
 cout << *a;
-now 10 will be printed 
+now 2 will be printed 
 we changed the pointer to the const value but we didn't changed the constant value so this will work, 2 is not changed
+
 for constant pointer 
 int *const a = pnew int(2);
+
 for both constant
 const int* const a = new int(2);
 
-constant method of a class cna't change a class variable
+constant method of a class can't change a class member variable, its content will be constant
+
+int getx() const{} cant' change other member variables - the x can't be modified inside the value
+
+setters shouldn't be made constant
+
+default argument
+
+void printfd(const abc &a){}
+this like takes as argument constant object by refernce such that methods called inside this must be constant
+mutable x = 10 can be used to change the value of x even in constant methods (primariliy used for debugging)
+
+
+
+
 
 
 
@@ -3679,18 +3707,40 @@ hw deep vs shallow copy
 
 
 
+runtime polymorphism
 
+function overriding
+Animal*animal = new dog();//this line runs in runtime so animla sound was played at compile time
+same animal sound will be played
+animal.sound();
 
+dynamice polymorphism
+solution for making runtime decision over compile time for sound
+- make animals sound as virtual that will allow compiler for late binding - overriding of animal sound by dog sound (lately)
+animal: virtual sound() override
+dog: void sound() override    this has to do with increasing readability
 
+virtual keyword - method to leave decisions at runtime
 
+late binding 
+runtime pr decision
+compiler ko btnae ka ki take things less erously at compile time instead wait for runtime
 
+same things applies to destructor so animal destructor will be called if not made virtual
 
+beta papa ko utha - downcasting
 
+compile time 
+- static binding 
+- early binding
 
+Upcast
+animal*a=new dog();
 
+without virtual keyword in parent class
+left mei jo likha hai uska function call hoga
 
-
-
+agr lga hai toh right side wali chizein
 
 
 
