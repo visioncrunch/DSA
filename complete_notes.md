@@ -1,10 +1,21 @@
+How does computer stores any information -: name, address, pass/fail, 01010010 in form of bytes
+01010110 01011101 01011101 01011010
+
+bit /transistor/ switch  / wire
+0 1  on off     on off    connected disconnected
+smallest unit of information that computers can understand: byte - set of 8 bits
+how does computer stores anything: bytes
+
+
+
+
 1. # how to approach a problem
 
- - understand the objective
- - pay attention to the constraints
- - write a pseudocode of best case
- - inlcude corner cases
- - dry run it
+ problem statement ->
+ solution in head -> 
+ rough solution(flowchart) ->
+ high level language(C++) -> 
+ machine language 0101010101110101
 
 2. # return minimum/maximum of three numbers
 
@@ -13,7 +24,7 @@
  - return ans
 
  - using ternary operators
-    return a<b ? (a<c ? a : c) : (b<c ? b : c)  
+    return a < b ? (a < c ? a : c) : (b < c ? b : c)  
 
  - sort array and report the smallest element as answer
 
@@ -84,7 +95,7 @@
 
  - read n
  - if n in 91 to 100 print a 
- -else if n in 81 to 90 print b
+ - else if n in 81 to 90 print b
  - else if n in 71 to 80 print c
  - else if n in 61 to 70 print d
  - else print e
@@ -454,9 +465,9 @@ The "newline character" ("\n") is efficient in terms of both memory usage and pr
  - ctrl + end - goes to ending of document
  - ctrl + f to find some words press enter to replace, esc to exit
  - f5 to debug
- - shift ctrl debug to restart debug
-1 - shift f5 to stop debug
-1 - step over f10 step into f11 continue f5
+ - shift ctrl f5 debug to restart debug
+ - shift f5 to stop debug
+ - step over f10 step into f11 continue f5
 
 32. # why return statements at the end of functions
 
@@ -611,10 +622,10 @@ it doesn't matter whoever is greater than another they would be swapped of the d
  - better graphics performance
  - more security and signed processors
  - stops kernel patching with software
-1 - data execution/deletion prevention
-1 - ram limitation is just a software not a physical limitation
-1 - program files has 64bit files
-1 - and program files(x86) have 32 bit files
+ - data execution/deletion prevention
+ - ram limitation is just a software not a physical limitation
+ - program files has 64bit files
+ - and program files(x86) have 32 bit files
 
 
 53. # decimal to binary
@@ -864,10 +875,7 @@ it doesn't matter whoever is greater than another they would be swapped of the d
 
 103. # count 0s and 1s in an array, dnfp, sort 2,1,0 sorting, -ve +ve sorting
 
- - while l < r
- - if l == 0 l++
- - if r == 1 r--
- - else swap(arr[l++],arr[r--])
+
 
  - use sort function sor(arr,arr+n)
 
@@ -1092,7 +1100,8 @@ it's code
  - sort(v.begin(),v.end(), mycomp)
  - bool mycomp(vector<int>a,vector<int>b){return a[0]>b[0]; for 0based indexing return a[1]>b[1]; for 1based indexing}
 
- -
+
+ 
 To use a custom comparator in the C++ sort() function, you need to pass it as the third argument to the function. The comparator function should take two elements of the type you want to sort as arguments and return a boolean value indicating whether the first element is less than, equal to, or greater than the second element.
 
 For example, the following code sorts a std::vector of std::string objects in alphabetical order, using a custom comparator:
@@ -1139,6 +1148,12 @@ Carol: 20
 Alice: 25
 Bob: 30
 Custom comparators are a powerful tool for sorting and ordering data in C++. They can be used to sort data based on any criteria, regardless of the data type.
+
+vector<int> numbers = {4, 2, 7, 1, 9};
+
+// Sorting in descending order using lambda function
+sort(numbers.begin(), numbers.end(), [](int a, int b) {return a > b;});
+
 
 133. # advanced questions of binary are based on
 
@@ -1263,17 +1278,18 @@ Prime Number
  In this square root approach, we only need to check divisors up to the square root of n
  because if n is not a prime number, it must have a divisor smaller than or equal to its square root.
 
- -Sieve of Eratosthenes
+ -Sieve of Eratosthenes count number of primes upto n
  Start with a list of numbers from 2 up to the desired limit.
  Start with the first number (2) and mark all of its multiples as non-prime.
  Move to the next unmarked number (3) and repeat the process.
  Continue this process until you reach the square root of the limit.
+ If prime[i] is true, then i is a prime number.
 
  - make a bool vector (prime) of all numbers from 0 to n with all elements marked as true
  - mark 0th 1st element as false and make an ans variable for recording count of primes
  -for i = 2 i < sqrt(n) 
         if(prime[i])
-            ans++ 
+            ans++ //ans is count of primes upto n
             j=i*i //becoz all multiples smaller than this number will be marked in previous iterations
             All multiples of primes smaller than p have been marked in previous iterations, not their squares (which is why we start marking from p×p).
             
@@ -1329,28 +1345,27 @@ a % m * b % m = a*b % m
 146. # bubble sort - bubble up  the largest element by swapping
 swap the adjacents if needed, till we get the largest element to the right in every iteration
 
-for i < n-1 // coz the very first element is sorted anyways so omit the last iteration
-for j=i j < n - i - 1  //j is the number of swaps for each iteration of i 
+for i = 0 i < n-1
+for j = 0 j < n - i - 1  // shrinking the swapping space from both side as large and small elements are equally being sorted 
 if arr j > arr j+1 then swap both (for ascending sort)
 if arr j < arr j+1 then swap both (for descending sort)
 
 O(n^2)
 omega(N)
 
-147. # insertion sort - shifting of large sorted values to create vacancy for the unsorted small value
-
-insert an element in the unsorted array to its correct position in the sorted array by
-shifting all the elements greater than it in the sorted array by one position and placing it in the vacant space formed
+147. # insertion sort
 
 void insertionsort(int arr[], int size)
 {
    for (int i = 1; i < size; i++)
     {   int j = i - 1;
+        int key = arr[i];
         while (arr[j] > arr[j+1] && j >=0)
         {
             swap(arr[j],arr[j+1]);
             j--;
         }
+        arr[j+1]=key;
     }
 }
 148. # selection sort - select the smallest element in unsorted array and swap it with ending element of sorted array
@@ -2823,7 +2838,7 @@ Missing Elements From An Array With Duplicates
 
 
 
-Find First Repeating Element
+Find First Repeating Element create hash
 
 - for i 0 to n for j i+1 to n if a[i] == a[j] then return i+1 after all the iterations return -1
 - 1 5 3 4 3 5 6     1->1   5->2   3->2   4->1   6->1 (hashing)
@@ -2842,8 +2857,7 @@ to access the sets
 set<int>st
 for auto x=1; x < n x++
 for auto i:st
-
-
+another way remove the duplicates from each sorted array then use this program wo set
 
 
 Wave Print A Matrix
@@ -2860,112 +2874,12 @@ print outer box
 decrease size
 print next small box
     
-Factorial Of A Large Number
-
-( subquestion )
+Factorial Of A Large Number gfg
 add two numbers represented by two arrays gfg
-while i>=0 and j >=0
-carry = 0
-int x = arr[i] + arr[j] + carry
-int digit = x%10
-carry = x/10
-ans.push_back(digit + '0'); // to store a digit in a string vector // coz value of 0 in ascii is 30
-i-- j--
 
-handle the cases when one number is bigger in size than the another
-in that case
-while i>=0
-while j>=0
-int x = arr[i] + 0 + carry
-OR
-int x = arr[j] + 0 + carry
-i-- j--
-
-lastly 
-if carry
-ans.pushback carry + '0'
-
-if arr[arr.size()-1]==0
-ans.pushback(ans.size())
-reverse(arr.begin, arr.end)
-return ans
-
-similarly i can do bodmas
-
-factorial
-vector< int > ans;
-ans.pushback(1)
-carry = 0
-int i=2 i < n i++ // this is loop for mulitplication with more number
-  for j=0 j < ans.size() j++ //this is loop for multiplying in future if the ans array exists further
-    int x = carry+ ans[j]*i //that's how answers are calculated
-    ans[j] = x%10 //the last digit will be stored
-    carry=x/10 //carry will be calucted
-
-    if(carry) //if carry exist 
-      ans.pushback(carry%10) //it will be pushed further
-      carry/=10
-    carry = 0
-cout reversed answer
 Remove Duplicates From ascending Sorted Array
 
--  int removeDuplicates(vector<int>& nums) {
-    //      int minAns = INT_MAX;
-    //      vector<int> v;
-    //      int i  = 0;
-    //      while (i < nums.size())
-    //      {
-    //          if (nums[i] == minAns)
-    //          {
-    //              i++;
-    //          }
-    //          else
-    //          {
-    //              minAns = nums[i];
-    //              v.push_back(nums[i++]); //using another structure to store the answer
-    //          }
-    //      }
-         
-    //      nums = v; //equating the structure back
-    //      return nums.size();
-
-- //2nd approach where i will skip the dulplicates and whenver it encounter a new value it increments j
-            int n = nums.size();
-            int i = 0;
-            int j = 0;
-            while (i < n)
-            {
-                if (nums[i] == nums[j])
-                {
-                    i++;
-                }
-                else
-                {
-                    j++;
-                    nums[j] = nums[i];
-                }
-            }
-            return j+1;
-    }
-
 Maximum Average Subarray (Sliding Window Problem)
-
-  double findMaxAverage(vector<int>& nums, int k) {
-        //calculating sum0
-        int sum0 = 0;
-        for (int i = 0; i < k; i++)
-        {
-            sum0+=nums[i];
-        }
-        int maxAns = max(INT_MIN,sum0);
-        //caluclation of maximum sum by sliding window technique
-        for ( int i = 1; i <= nums.size()-k; i++)
-        {   sum0=sum0+nums[i+k-1]-nums[i-1];
-            maxAns = max(maxAns,sum0); //before the correction it was not comparing maxAns with the sliding window 
-        }
-        double avg = maxAns;
-        return avg/k;
-    }
 
 160. # Week 4 - Assignments
     
@@ -3765,3 +3679,402 @@ abstraction - delivering only essential information to the outer world while mas
 initialization list
 macros
 
+
+
+169. # interview
+
+take it serious -cgpa bcoz its highly populated india
+
+offcampus requires projects skills
+
+now coding test - analytical, coding, technical writing 
+DSA OS DBMS OOPs Computer Networks LLD HLD
+(coding > aptitude > techincal writing)
+
+now interview - 
+interviewer - will skill behaviour articulation 
+they think of the itnerviewee as working with them and check their willingness to complete the project
+
+only tell what is asked
+
+stop when prompted to
+
+when he is speaking, listen intently
+
+he will test your panic by saying rude things,
+ saying right things as wrong
+  and you have to back your arguments with proofs subtly without getting angered
+
+uh o uhm is sred flag
+either speak in hindi or english select one and stick to it
+always answer from very basic not on high level
+answer in a flow
+don't assume he knows everything
+be fearless he is an idiot
+
+for experienced candidates they will ask your experience
+alognwith doing your work
+always ask your colleagues about their work to know about it 
+and mention it in interview that you have worked and contributed in it too
+this shows activeness, eagerness to learn
+
+treat every coding question as new one
+increase complexity step by step
+use full time by medium length easy explanation without letting them know it articulate it in a medium length to consume thier time
+always tell brute force approach if you know the hard one
+interview is always personal not on comparision
+
+always ask for hints repetition, sample i/o
+if still don't know - tell honestly didn't study it
+in theory questions be brutally honest and tell idk if not studied.
+don't ask non-tech questions
+
+don't cheat
+
+do you have any questions for me?
+don't ask 
+salary
+working hours
+job work?
+
+ask 
+his experience 
+his job role
+work culture
+expectations from a candidate in an interview at my level
+questions in which interviewer will be comfotable to answer
+current product he is working on
+
+writing good code
+use good identifiers
+indentation
+only required comments -add comments where the code is hard to understand
+no magic numbers
+#define STUDENTID 100
+
+virtual interview
+don't be oversmart
+no cheating
+
+project discussions
+prepare for but obvious questions
+- motivation to build this?
+- why this?
+- why not that?
+- why only this stack?
+- which tech stack is used?
+
+hr round 
+on campus
+off campus
+know salary expectations
+know the situation in the market
+connect with people already working that org
+ask relevant question about the org
+culture
+work location
+remote
+
+170. # linked list
+
+difference in struct and class
+struct mei default public and class mei default private
+struct is used for bundling of data
+bundling + methods = class
+only a conventional difference
+
+creation of ll 
+printing a ll 
+finding length of ll 
+insert at head 
+insert at tail 
+insert at position n 
+insert at postion n with prev pointer is simple
+if position == 1 then newNode->next = this return newnode as the new head
+if position == 2 to length, traverse till postion -1 make a newnode pointing to prev->next and make prev->next = newNode
+if position == length + 1 then traverse till end, make the prev->next = newNode 
+
+singly node has next pointer and one data holder
+doubly has prev and next pointers and one data holder
+circular singly ll has next pointer and one data holder and tail's next pointer to head
+circular doubly ll has prev and next pointers and one data holder and tail's next pointer to head head's prev pointed to tail
+
+
+Node a; creation of static object
+accessing via a.data
+Node *head = new Node(); creation of dynamic object
+accessing via *head.data or head->data
+
+where is linnked list used in real life
+
+in OS in storage management where linked list is used? ram free space management
+
+linked liked can work on non-contnous memory
+
+it only needs memory
+
+less wastage than array
+
+collection of nodes
+
+where a node is two boxes one of which contains the data and other is a pointer that contains the address of the next node
+node *ptr
+
+class node{
+  int data;
+  node* nextnode;
+}
+// structure can be made too
+struct Node {
+    int data;
+    Node* next;
+
+    Node(int value) : data(value), next(nullptr) {}
+};
+
+
+last node points at null 
+
+LL is hindi
+
+insert/shift operations happens in O(1) complexity (location must be known)
+
+can be grown/shrink in size at runtime/dynamically 
+
+address ka concept not indices
+pointers ka concept
+
+there will always be an error due to a missed corner case in ll so don't panic
+
+types depends on number of pointers 
+singly
+doubly
+circular
+circular doubly
+
+can a constructor be called without using the new keyword? yes
+
+never pass a linked list originally, duplicate it and then use the copy in function call
+
+can we use recursion to go backward in a linked list
+
+while temp !=null print temp->data  temp = temp->next
+
+always consider code reusability - save the work you did once with someone's help
+
+insertion in ll
+-make new node called temp
+point it to head
+make temp the new head
+make sure to pass by refernce in this case to add at head
+node* &head 
+and make a copy then use acccording to the use case
+after solivng the problem in ll
+check for corner cases - empty linked list - one sized ll etc
+
+insertion at tail
+create new node
+access tail node by doing temp!=null and updating temp by its next value
+change tail pointer from null to temp
+make temp as tail
+
+insert at position n
+create a new node
+point it to 4th postion
+point 3rd node to new node 
+pass by refernce
+if this is used at head or tail then call the insertathead and insertattail codes
+
+delete in ll using position number
+
+delete from head
+create node temp pointing to head
+head = head->next
+temp -> next = NULL
+delete temp
+
+delete from tail
+create node temp pointing to tail
+traverse to second last node and point temp to it
+point temp to null
+delete tail 
+tail -> temp
+
+delete nth position
+iterate to n-1 node 
+call it temp1
+call temp1->next = temp2
+point temp1 to temp2->next
+delete temp2
+delete in ll using value
+
+always solve question with engineering wali approach
+
+detect and delete loop in a ll
+
+reverse an ll
+by reversing the next pointers 
+
+tortoise algorithm to find midddle of a ll
+slow wala pointer 1 step aage bdhta hai
+fast wala pointer 2 step aage bdhta hai
+firstly fast wala pointer will move two steps if he can then slow wala pointer will move else no one does and where slow pointer stands that's the answer
+
+palindrome in ll
+make rev ll and compare 
+
+divide the ll at mid
+reverse the last ll
+(in place not possible)
+store the last half in stack and compare it with the first half
+
+check cycle in a ll
+make a map for every address set to false and then update every unvisited node to true and if revisited then return true(loop is present) else if reached null return false(no loop) 
+this map approach is told by everyone
+so keep another in backup
+using tortoise algo if fast and slow pointers overlap before fast meething the null pointer then it is a loop
+
+3 questions on this question
+
+1. check for loop 
+
+2. starting point of the loop
+at the point where the loop is confirmed, make start = head and then move both 1 step forward then where they meet that's the starting of loop
+
+3. remove the loop
+runa temp from start
+when temp next is start do temp ka next = null to break the loop
+
+
+add 1 to a linked list
+reverse the ll
+if carry 0 break
+if carry !=0 and ll ended then create a new node at tail
+reverse again
+
+in ll questions tail won't be given  only head
+
+
+add 2 numbers given by ll
+
+reverse ll in k group
+rev the first k group then let recurision solve the next 
+
+sort 0s 1s and 2s
+
+remove duplicated froma sorted ll
+compare temp to temp ka next and increment temp when unique
+
+sort a ll
+
+quicksort is better for ll/array?
+mergesort is better for ll/array?
+
+171. # Stack
+
+LIFO
+
+underflow - deleting from already empty stack
+
+overflow - adding element in already full stack
+
+ctrl z use caes abc pqr xyz in ms word
+
+#include <stack>
+
+stack<int>st;
+stack<char>sre;
+stack<node>st;
+
+st.push(13);
+st.pop();
+st.empty();
+st.size();
+st.top();
+
+implementation of stack be done with array, vector
+get a dynamic array
+int size
+int top at -1
+
+push -> top++ arr[top]=data
+pop -> top--
+empty -> if top = -1
+getTop -> return arr[top]
+getsize -> return top + 1
+
+if I need reverse ordering of something then I can apply stack in between
+insert and pop to get reverse
+
+recursional things happen in stack so stack can also happen in recursive way
+while (!st.empty())
+middle element of a stack using recursion
+keep a temp 
+keep a pos acc to if stack elements are even or odd in number
+
+insert at bottom of stack
+use same recursive approach as in finding middle element 
+
+reverse a stack 
+store it in another stack 
+OR 
+if sth can be reversed with a stack it can be reversed with a recursion
+
+insert in a sorted stack
+same as recursive approach but instead of keeping a position varaible we are doing comparision with the element
+
+whenever top element of a stack is accessed check whether it is empty or not before doing any operation
+
+sort a stack
+do insertsorted for every element after popping
+
+implement two stacks in a single array
+giving half memory to stack1 and stack2 will waste memory
+just that top1 top2 two indices each at -1 and size so top 1 will increment and top2 will decrement
+when space is not available this is the condition top2 - top1 = 1
+
+top1 top2 push1 push2 pop1 pop2 
+
+valid parenthesis algorithm
+
+remove redundant brackets/ return true false if redundtant brackets found
+if there is no operator between two brackets then return true bcoz that's redundant
+if present then return false
+
+implement a min stack where all operations take O(1) complexity
+push pop top min all in O(1) time
+155 leetcode
+
+pair<int,int> a pair where two integers will be kept together in a block
+pair<int,char> p = make_pair(4,5);
+p.first
+p.second
+top - first pair value
+min - second pair value
+.back() last in stack
+this stack structure is: vector<pair<int,int>>
+storing the minimum value upto right in second element of pair
+altering stack structure to decrease time complexity
+
+next smaller element returning if not found return -1
+brute force n2 
+8 4 6  2  3 
+2 2 2 -1 -1
+rightmost element always has -1
+
+previous smaller element
+
+1475 final prices with a special discount in a shop
+longest valid parenthesis
+
+largest area in a histogram = w * h(from an index)
+w = next smaller element index - prev smaller index - 1 
+
+use an extra stack if recursion not allowed in a programming lang
+
+practice.cpp:6:15: warning: overflow in conversion from 'long long int' to 'char' changes value from '134134131551' to '95' [-Woverflow]
+    6 |     char ch = 134134131551;
+
+pascals triangle ->
+C = 1
+C = C * (i - j) / j 
