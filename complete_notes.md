@@ -2259,7 +2259,7 @@ else f(n) = f(n-1) + f(n-2);
 
 recursion in arrays
 
-print(arr,size ,int i = 0)
+print(arr,size ,index)
 if i == size return (simply exit if all elements are printed)
 processing cout<< arr[i]; //for printing elements of array
 print(arr, 5, i++)
