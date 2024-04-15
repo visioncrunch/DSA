@@ -2375,117 +2375,10 @@ main gets called
     dusso0 stores this and returns v7+v6+v5+v4+v3+v2+v1+v0 to main
 
 binary search
+include exclude substr question pattern abc 
+this can also be done using bit masking for more efficient solution
 
-int BS(int arr[], int target, int start, int end)
-{
-   if (start > end) //base case
-   {
-      return -1;
-   } 
-   int mid = start + (end-start)/2;
-   if (arr[mid] == target) //base case
-   {
-      return mid;
-   }
-   else if (arr[mid] > target) //processing 
-   {
-      return BS(arr, target, mid + 1, end);
-   }
-   else if (arr[mid] > target) //processing
-   {
-      return BS(arr, target, start, mid - 1);
-
-   }
-}
-
-include exclude pattern
-
-print all subsequence of string
-OR
-all subsets of a set
-OR
-all subarrays of array
-
-void includexclude(string str, string output, int index)
-{//base case
-  if index == length
-  //ans is build finally
-  cout << output << endl ;
-      return;
-}
-char ch = str[index];
-//exclude
-includexclude(str,output,index+1);
-
-output.push_back(ch);
-//include
-includexclude(str,output,index+1);
-
-
-
-
-cut into segments
-//exploring all possible ways
-  int maximizeTheCuts(int n, int x, int y, int z)
-    {
-        if (n==0)
-        {
-            return 0;
-        }
-        if (n<0)
-        {
-            return INT_MIN; //int_min because it will not be considered in the maximums
-        }
-        int option1 = 1 + maximizeTheCuts(n-x,x,y,z);
-        int option2 = 1 + maximizeTheCuts(n-y,x,y,z);
-        int option3 = 1 + maximizeTheCuts(n-z,x,y,z);
-        return max(option1,max(option2,option3));
-    }
-
-coin change
-// make rupees 11 with 5 2 1 coins such that use minimum coins (3 in this case: 5+5+1) return -1 if can't make
-base case
-if amount is 0 return 0
-int mini = intmax
-int ans = int_max
-for int i = 0 i < coins.size() i++
-  if coins[i] <= amount
-    int recans = coinChange(coins, amount - coin);
-    if recans!= intmax  //a recursive call can return intmax so this line takes care of that
-      ans = 1 + recans;
-  mini = min(mini,ans)
-if mini == intmax return -1
-else return mini
-
-f(100) = 1 + f(100-coin1) 
-f(100) = 1 + f(100-coin2)
-return max of both the numbers
-
-
-house robber
-
-1 test case mei solve krunga baaki recursion smbhaal lega
-
-int solve(arr,size,index){
-  if index>=size return 0
-  int option1 = arr[i]+solve(arr,size,nums+2)
-  int option1 = 0+solve(arr,size,nums+1)
-  return max(op1,op2)
-}
-
-
-check if array is sorted via recursion
-
-sortcheck(int []arr, int size, int i)
-base case
-if i == size return true
-processing                recursive call
-if arr[i]>arr[i-1] return sortcheck(arr,size,++i) this is head recursion because the base case will try to hit first
-else return false
-
-
-
-
+house roober coin change maximize the cuts pattern
 in recursion i++ doesn't work, ++i works
 
 in base case it is mandatory to return whatever the case, whatever the problem
@@ -3088,14 +2981,14 @@ how to neogciate for salary - learn to say no, i will think through it, and i wi
 164. # Dnc
 
 mergesort
-    s   m     e
-    2 1 9 7 4 6
+    s   m     e   //break into left and right half
+    2 1 9 7 4 6 
 
 Left          Right
-2 1 9         7 4 6
+2 1 9         7 4 6   //sort the two split arrays using recursion
 s   m         m+1 e
 
-    1 2 4 6 7 9
+    1 2 4 6 7 9    //merge the two sorted arrays
 
 questions that most engineers fail to answer?
 quick sort  merge sort  heap sort
@@ -3112,7 +3005,8 @@ quick sort  merge sort  heap sort
     
 
 void merge(int arr[], int s, int e){
-    //initialize m
+    // declaring and filling the two heap arrays
+
     int m = (s+e)/2;
     //initialize sizes l,r of the two heap arrays
     int l = m - s + 1;
@@ -3120,7 +3014,7 @@ void merge(int arr[], int s, int e){
     //declare the two heap arrays left,right
     int* left = new int[l];
     int* right = new int[r];
-    //fill the two heap arrays left,right
+    //fill the two heap arrays left,right // these are already sorted
     int k = s;
     for (int i = 0; i < l; i++)
     {
@@ -3133,7 +3027,8 @@ void merge(int arr[], int s, int e){
         right[i]=arr[k];
         k++;
     }
-    //now replace the original array with the two sorted arrays
+    _________________________________________________________________________
+    //now replace the original array with the two arrays comparision for sort
     int i = 0, j= 0;
     int n = s; //s is the zeroth index of a divided array, so it may not be 0 else it would always start at starting array that was passed in the merge sort 
     	while(i < l &&  j < r) {
@@ -3149,6 +3044,7 @@ void merge(int arr[], int s, int e){
 			j++;
 		}
 	}
+  _____________________________________________________________________________
     //handle the corner cases if one of the array gets exhausted
     while (j<r)
     {
@@ -3162,7 +3058,7 @@ void merge(int arr[], int s, int e){
         i++;
         n++;
     }
-    
+   ___________________________________________________________________________ 
     //deallocate the heap memory
     delete[] left;
     delete[] right;
@@ -3261,13 +3157,14 @@ memory allocation
 functional programming f1 calls f2 f2 calls f3 f3 returns f2 returns f1 returns
 not easy to implement, extend ,maintain
 
-structure/class is bundle of properties, behaivour(functions) 
+structure/class is bundle of properties and methods
 
 class Student
 {
   int id;
   int age;
   string name;
+  float marks;
   void study()
   {
 
@@ -3329,7 +3226,8 @@ private:
 public:
   void funny(){}
 
-constructor has no return type
+constructor has no return type ####
+
 ctor is shorthand for constructor
 
 default constructor
@@ -3340,7 +3238,7 @@ when Student s1; is created it calls the default constructor that will initializ
 this default constructor is set to public
 when we set it to private then it will not let us make a Student variable as the constructor that helps initializes it properties is made private
 
-the default constructor vanishes when another constructor is declared
+the default constructor vanishes when another constructor is declared so if we need a default constructor to work we have to declare it again
 
 
 Student(int _ogarg, bool _ewofe2, char _o1, int _re3){
@@ -3359,12 +3257,12 @@ how to identify a constructor - it has the name of class in prototype
 this.name = name
 is same as
 student.name = name
-this is a private pointer that points at current object added inbuilted by compiler
+this is a private pointer that points at current object added inbuilt by compiler
 this->id = id
 
 student will be allocated in stack
 
-can we change this variable??
+can we change this variable?? 
 
 heap int*a = new int(5);
 heap Student*s = new Student(werw,22r,wr2,3r,13r); it creates a pointer s that will point to an object in heap
@@ -3375,9 +3273,6 @@ just make sure to deallcate the object
 
 object in stack is accessed by .name
 object in heap is accessed by ->name
-
-
-copy constructor
 
 getter setter
 
@@ -3410,32 +3305,35 @@ setters shouldn't be made constant
 default argument
 
 void printfd(const abc &a){}
-this like takes as argument constant object by refernce such that methods called inside this must be constant
-mutable x = 10 can be used to change the value of x even in constant methods (primariliy used for debugging)
+a is a constant object of class abc that implies that it can only use constant methods 
+so a method like a.getZ() will only work if getZ is constant otherwise the compiler will throw an error saying that
+you have used a non-constant method with "a" so it might be possible to change the object properties from getZ coz it's not constant
+
+if we still want to change a property using a const method we can declare that property as mutable
+mutable int x; instead of int x; bypassing const keyword promise
+
+abc(int x, int y, int z)
+{
+  this->x=x;
+  this->y=y;
+  this->z=z;
+}
+
+initialization list to write a constructor
+
+abc(int _x, int _y, int _z):x(_x),y(_y),z(_z) {}
+
+if there is a const property and we need to initialize it for the first time we can use initialization list and it wont give any error
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+macros 
+#define PI 3.142857
+#define MAXX(x,y) (x > y ? X ; y)
+shorthands for constants and commonly used expressions
 
 Copy constructor(by default added by compiler)(called when making a copy of object into another)(public by default)(no return type)
-Student s1 = s2; (shallow copy)
+
+Student s1 = s2;
 s2 is source and s1 is destination where we need to copy
 Student(const Student&srcobj)
 {
@@ -3452,8 +3350,9 @@ why we need copy constructor - > for deep copying
 student s1;
 s1 = s2; will not call copy constructor
 
-Student(const Student &srcobj){} (good practice)(this removes the possibility of data change)
+Student(const Student &srcobj){} (good practice)(this removes the possibility of data change in the srcobj)
 Student(Student &srcobj){} (bad practice- in this srcobj's data can be changed)
+Student(student srcobj){} - illegal as rhis statement prompts computer to call the copy constructor which is not declared yet
 
 why pass by reference? because copy constructors work is to copy and by writing Student srcobj we are demanding a copy even before actaully making a copy this is like say you are drinving a car but without having one
 
@@ -3465,6 +3364,7 @@ init/copy then destroyed
 
 for destruction destructor is used (by default, inbuilt by compiler, public, no return type)
 constructor, destructor, copy constructor is not safe and takes whole arguments
+if we don't write destructor then compiler will make it's default dumb destructor
 
 ~Student(){
   cout<<"dtor"<< endl;
@@ -3487,19 +3387,26 @@ oops ka mtlb jeevan
 
 getters setters are made to access private data in public method
 
-1 pillar of oops - abstraction
+1 pillar of oops - abstraction loosely coupled things
 
 encapsulation bundling of data and methods (wrapping things)
 
-car that has hidden engine, accessible gear changer, key holder is encapsulation
+car that has hidden engine, accessible gear changer, key holder is encapsulation as it is the way to do abstraction
 
 how it implements abstraction - i only see what student details are not the functioning of how all the data of student is stored or decided
 
 why encapsulation
 easy to handle
-protect integrity, reliable, secure, control of how class data is modified
+protect integrity, reliable, secure, control of how class data is modified and who can modify it's properties 
 maintainability
-friend keyword? ->
+friend keyword? -> to share info of a hidden class
+friend class B;
+friend void print(const A &);
+
+
+
+
+
 authentications steps can be added
 like only allow gf name if its female
 perfect encapsulation - if all data members are private
@@ -3509,14 +3416,15 @@ encapsualtion is often a mean to acheive abstraction by hiding internal details 
 
 inheritance 
 class dog extends animal
-super class parent class base class
-sub class child class derived class
+(sub class child class derived class) extends (super class parent class base class)
 
 syntax
-
 class childname: public/protected/private(mode of inheritance) parentclass{};
+class Sparrow : public Bird
+{
 
-Oh yeah
+};
+increases extensibility by code reusability
 
 protected members are accessible within class itself and to derived classes
 
@@ -3525,10 +3433,7 @@ if we try to borrow protected things as public they will be borrowed as protecte
 private is never accessible or derived or it can't be inherited
 
 private > protected > public
-experiment the table
-
-protected is private but accessible data as public
-
+experiment the table - make base class and sub class with all these public private protected access modifiers
 
 types of inheritance
 - single inheritance
@@ -3539,14 +3444,14 @@ types of inheritance
     reseracher to professor
     father to professor
     employee to professor
-    clas professor : public teacher, public reasearcher{}; 
+    class professor : public teacher, public reasearcher{}; 
 - multl-level inheritance
     animal to human to girl
 - hierarchical 
-    animal to dog,cat,human
-    dog to labra,desi,german
-    bird to sparrow,pigeon
-    human to male, female
+    animal to dog
+    dog to desi
+    desi to owned
+    owned to died
 
 dimaond problem
 
@@ -3561,28 +3466,29 @@ teacher   reseracher
        \  /
     professor
 
-nonstatic member 'walk' foind in multiple base-class subobjects of type 'person' 
+nonstatic member 'walk' found in multiple base-class subobjects of type 'person' 
 
 member found by ambiguos name lookup
-professor is comfused whoe walk() to choose teacher or reseracher
+professor is comfused whose walk() to choose teacher or reseracher
 
 by principle of abstraction professor deosnt know person
 
 solution:
 
-scope resolution
-p.teacjer::walk();
+scope resolution: clearify whose walk() to use
+p.teacher::walk();
 p.reaserarcher::walk();
 
 virtual
 class teacher : virtual public Person
-by inheriting virtually is saying dont make copy of the methods. when someone uses the walk() function now the user would be able to use person.walk()
+by inheriting virtually is saying dont make copy of the methods. when someone uses the walk() function now the user would be able to use person.walk() at the runtime from both the classes
 
 compile time pr chizein less logical hoti hain
 runtime pr chizein more logical hoti hain
+the base class must be inherited virtually if needed in the diamond
 
-so by using virtual we are using the walk() function at runtime by ihneriting the functions implementaiton when it is used
 polymorphism is used
+so by using virtual we are using the walk() function at runtime by ihneriting the functions implementaiton when it is used
 with virtual i can bring same copy to the class
 
 polymorphism
@@ -3590,43 +3496,66 @@ polymorphism
 compile time (faster) - static polymorphism
 runtime (slower)
 
-compile time
-function overloading - write parameterized constructors, normal fucntions
+compile time polymorphism
+function overloading - write parameterized constructors, normal functions
 int add(int a, int b){
   return a+b;
 }
-double(double a, double b)
+double add(double a, double b)
 {
   return a+b;
 }
-both will run regardless of their same name
+both will run regardless of their same name because of different parameters
 
 operator overloading
 hw find all c++ operators which can be overloaded
-v1+v2
+Sure, Anubhav. In C++, you can overload the following operators:
+
+1. Arithmetic operators: `+`, `-`, `*`, `/`, `%`
+2. Relational operators: `==`, `!=`, `<`, `>`, `<=`, `>=`
+3. Logical operators: `&&`, `||`, `!`
+4. Bitwise operators: `&`, `|`, `^`, `~`, `<<`, `>>`
+5. Assignment operators: `=`, `+=`, `-=`, `*=`, `/=`, `%=`, `&=`, `|=`, `^=`, `<<=`, `>>=`
+6. Increment/decrement operators: `++`, `--`
+7. Subscript operator: `[]`
+8. Function call operator: `()`
+9. Member access operators: `->`, `->*`, `.`, `.*`
+10. Comma operator: `,`
+
+These operators can be overloaded to provide custom behavior for user-defined types. If you have any specific questions about operator overloading or need examples, feel free to ask.
+
+v1+v2; should be stored in v1
 void operator+(const Vector &src){
     this->x = this->x + src.y
     this->y = this->y + src.y 
 }
 no need to write v1 = v1 + v2
 
-init list - another way to write parameterized constructor
-
-hw init list
-
-
-
-
 hw deep vs shallow copy
+Student s1 = s2; (default dumb copy constructor is called)(shallow copy)
+deep copy when all the propoerties of any objects are independent of ther objects of the same class
+for example when shallow copy is done, pointer of the new object will point to pointer to the input object,
+this in turn would make both the object's pointer same, so changing one of them would simultaneusly change the other
+
+can a constructor be made private? 
+yes and no error at compile time if not used
+use: to not make object of a class directly instead make a friend class and declare constructor there
+also we can initialize a count variable with the constructor that would monitor how many ojbects of the priv class has been made
+
+another use singleton class where constructor is made private too
+
+resource learn microsoft constructors C++
 
 
+y = new int(*obj.y); would be the solution to deep copy
 
-runtime polymorphism
+runtime polymorphism(dynamic)
 
 function overriding
-Animal*animal = new dog();//this line runs in runtime so animla sound was played at compile time
+static binding(by compiler): Problem: Animal*animal = new dog();//this line should run in runtime but animal sound was played at compile time
 same animal sound will be played
 animal.sound();
+
 
 dynamice polymorphism
 solution for making runtime decision over compile time for sound
@@ -3635,52 +3564,89 @@ animal: virtual sound() override
 dog: void sound() override    this has to do with increasing readability
 
 virtual keyword - method to leave decisions at runtime
+it does so by making static arrays/tables function poitner table at compile tile
 
 late binding 
 runtime pr decision
-compiler ko btnae ka ki take things less erously at compile time instead wait for runtime
+compiler ko btnae ka ki take things less seriously at compile time instead wait for runtime
 
-same things applies to destructor so animal destructor will be called if not made virtual
+same things applies to destructor so animal destructor will be called if not made virtual and if made virtual then dog destructor will be called
 
-beta papa ko utha - downcasting
+downcasting - beta papa ko utha 
+dog* a = new animal();
+Upcast
+animal*a=new dog(); and why using pointer so as to set up the late binding
 
 compile time 
 - static binding 
 - early binding
-
-Upcast
-animal*a=new dog();
 
 without virtual keyword in parent class
 left mei jo likha hai uska function call hoga
 
 agr lga hai toh right side wali chizein
 
-
+virtual void sound(){}
+void sound override(){} - this override is not 
 
 static keyword in class
 
-static data member - variables that relate to instances of all the objects, to access such a variable -> int student::x; int student::y; static int x,y;
+static data member - variables that relate to instances of all the objects, to access such a variable
+int student::x; int student::y; (outside the class)
+static int x,y;(that's how you declare them in the class)
 this one is differnt from the object variable that could be access by a.x or a.y is it universal for that class
+so obj1.x=10; and obj2.x=20; are essentially using the same x variable
 
 
-static member function static void print(){}
+static member function static void print(){} 
+abc::print(); that's how you call it
 common to all objects and can't include non static instances of class
 __FUNCTION__ it prints the name of the function
 this pointers are not accessible
 
-
-
 abstraction - delivering only essential information to the outer world while masking the background details
+accessing private data members only through public methods of that class
+g++ -std=c++11 file.cpp to compile it from the standard of c++11
 
 
 
+abstract class
+classes that contain atleast one pure virtual function and these classes can not be instantiated, they are used as inteface
+and the classes that inherit this one would have to make virtual functions mandatorily
 
-initialization list
-macros
 
+bird.h
+#if !defines(BIRD_H)
+#define  BIRD_H
+#include <iostream>
+class Bird{ //abstract class
+  public:
+    virtual void eat() = 0;
+    virtual void fly() = 0;
 
+}
+class sparrow: public Bird{
+  public:
+    void eat(){
+      cout << "sparrow is eating\n";
+    }
+}
 
+#endif
+
+Bird *bird = new sparrow();
+birddoessth(bird);
+that's called abstraction we are changing the sparrow to eagle or pigeon and it will call the methods of that subbird/subclass
+and we can only call the method of a specific sub class through an object of the parent class 
+here interface is the parent bird class that provides the blueprint of how a bird would act
+then we have the implementation in which we inherit the abstract interface class
+
+inline function - idea is to cut the space exhausted by stack filling to override the function calling
+inline void print(int a)
+{
+  cout << a << endl;
+}
+used in small sized function
 169. # interview
 
 take it serious -cgpa bcoz its highly populated india
@@ -3782,30 +3748,35 @@ struct mei default public and class mei default private
 struct is used for bundling of data
 bundling + methods = class
 only a conventional difference
+<!-- do this with all types of ll -->
+<!-- creation of ll -->
+<!-- printing a ll  -->
+<!-- finding length of ll  -->
+pass by refernce when we need to modify the ll
+<!-- insert at head  -->
+<!-- insert at tail  -->
+<!-- insert at position n  -->
 
-creation of ll 
-printing a ll 
-finding length of ll 
-insert at head 
-insert at tail 
-insert at position n 
-insert at postion n with prev pointer is simple
-if position == 1 then newNode->next = this return newnode as the new head
-if position == 2 to length, traverse till postion -1 make a newnode pointing to prev->next and make prev->next = newNode
-if position == length + 1 then traverse till end, make the prev->next = newNode 
-
+creation of all types of ll
 singly node has next pointer and one data holder
 doubly has prev and next pointers and one data holder
 circular singly ll has next pointer and one data holder and tail's next pointer to head
 circular doubly ll has prev and next pointers and one data holder and tail's next pointer to head head's prev pointed to tail
 
+insertion or deletion of a node can be on the following nodes in linked list
+
+if head is null
+at head
+at tail
+in between
 
 Node a; creation of static object
 accessing via a.data
 Node *head = new Node(); creation of dynamic object
 accessing via *head.data or head->data
 
-where is linnked list used in real life
+where is linnked list used in real life?
+can we use recursion to move backwards in a linked list.
 
 in OS in storage management where linked list is used? ram free space management
 
@@ -3852,11 +3823,6 @@ doubly
 circular
 circular doubly
 
-can a constructor be called without using the new keyword? yes
-
-never pass a linked list originally, duplicate it and then use the copy in function call
-
-can we use recursion to go backward in a linked list
 
 while temp !=null print temp->data  temp = temp->next
 
@@ -3910,59 +3876,76 @@ delete in ll using value
 
 always solve question with engineering wali approach
 
-detect and delete loop in a ll
+ 
 
-reverse an ll
+
+reverse an ll leetcode
+reverse an ll using recursion
 by reversing the next pointers 
 
+
+middle element of a linked list 
+by traversing once to find length and then traversing again till half the length and reporting the answer
 tortoise algorithm to find midddle of a ll
 slow wala pointer 1 step aage bdhta hai
 fast wala pointer 2 step aage bdhta hai
 firstly fast wala pointer will move two steps if he can then slow wala pointer will move else no one does and where slow pointer stands that's the answer
 
-palindrome in ll
-make rev ll and compare 
 
-divide the ll at mid
+palindrome in ll 234 leetcode
+make new ll that is reverse of original
+compare both
+not a good practice to alter the data structure or modfiy the original data
+divide the ll at mid using tortoise algo
 reverse the last ll
-(in place not possible)
 store the last half in stack and compare it with the first half
 
 check cycle in a ll
-make a map for every address set to false and then update every unvisited node to true and if revisited then return true(loop is present) else if reached null return false(no loop) 
-this map approach is told by everyone
-so keep another in backup
+computer can detect a loop if it falls on the same address twice.
+while traversing if address repeats then it is a loop confirmation
+by creating a map of addresses we can check if an address marked true is visited again for loop presence
+map<ListNode*, bool> table; //that creates a map 
 using tortoise algo if fast and slow pointers overlap before fast meething the null pointer then it is a loop
 
-3 questions on this question
-
-1. check for loop 
-
-2. starting point of the loop
-at the point where the loop is confirmed, make start = head and then move both 1 step forward then where they meet that's the starting of loop
-
-3. remove the loop
-runa temp from start
-when temp next is start do temp ka next = null to break the loop
-
+detect and delete loop in a ll
+find one node less than starting point of loop using tortoise algo then
+point its next to null, loop removed!
 
 add 1 to a linked list
 reverse the ll
+try adding 1 to the head node after reversing
 if carry 0 break
-if carry !=0 and ll ended then create a new node at tail
+if carry !=0 go to head->next and try adding 1 there 
+if carry !=0 and ll ended then create a new node at tail with data as carry
 reverse again
 
 in ll questions tail won't be given  only head
 
 
 add 2 numbers given by ll
+reverse both the ll
+create a new ll
+try adding both head nodes after reversing to ll
+if carry 0 break
+if carry !=0 go to head->next in both the ll and try adding there 
+if carry !=0 and if ll ended then create a new node at tail of new ll with carry
+
+if first ll ends then proceed to add carry and the second ll until second ll ends too
+if second ll ends and carry !=0 then we can add a node at tail and store carry there
+
+if second ll ends then proceed to add carry and the first ll until first ll ends too
+if first ll ends and carry !=0 then we can add a node at tail and store carry there
+
+reverse again
 
 reverse ll in k group
-rev the first k group then let recurision solve the next 
+rev the first k group then let recurision solve the next
+mistake can happen when we have to join the ll of recursion with the base ll that we solved
 
-sort 0s 1s and 2s
 
-remove duplicated froma sorted ll
+sort 0s 1s and 2s (dummy node)
+
+remove duplicated froma sorted ll leetcode
 compare temp to temp ka next and increment temp when unique
 
 sort a ll
@@ -4078,3 +4061,6 @@ practice.cpp:6:15: warning: overflow in conversion from 'long long int' to 'char
 pascals triangle ->
 C = 1
 C = C * (i - j) / j 
+
+
+
